@@ -4,14 +4,13 @@
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -19,15 +18,17 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" styleClass="root-pane" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DashboardController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #F4F6F8; -fx-font-family: 'Segoe UI';" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.icet.ecom.controller.DashboardController">
     <children>
         <BorderPane layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 
             <!-- LEFT SIDEBAR -->
             <left>
-                <VBox prefHeight="800.0" prefWidth="240.0" styleClass="sidebar" BorderPane.alignment="CENTER">
+                <VBox fx:id="leftPane" prefHeight="800.0" prefWidth="240.0" style="-fx-background-color: #2D3447;" BorderPane.alignment="CENTER">
                     <children>
                         <HBox alignment="CENTER_LEFT" prefHeight="80.0" prefWidth="200.0" spacing="10.0">
                             <padding>
@@ -35,7 +36,7 @@
                             </padding>
                             <children>
                                 <Circle fill="#4b7bec" radius="8.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-                                <Label styleClass="logo-text" text="CLOTHIFY" textFill="WHITE">
+                                <Label text="CLOTHIFY" textFill="WHITE">
                                     <font>
                                         <Font name="System Bold" size="22.0" />
                                     </font>
@@ -47,43 +48,67 @@
                                 <Insets top="20.0" />
                             </padding>
                             <children>
-                                <Button fx:id="btnDashboard" alignment="BASELINE_LEFT" graphicTextGap="15.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="240.0" styleClass="nav-button-active" text="Dashboard" textFill="WHITE">
+                                <!-- Navigation Buttons with IDs and Actions -->
+                                <Button fx:id="btnDashboard" alignment="BASELINE_LEFT" graphicTextGap="15.0" mnemonicParsing="false" onAction="#btnDashboardOnAction" prefHeight="50.0" prefWidth="240.0" style="-fx-background-color: #4B7BEC; -fx-background-radius: 0 30 30 0; -fx-cursor: hand;" text="Dashboard" textFill="WHITE">
                                     <padding>
                                         <Insets left="30.0" />
                                     </padding>
+                                    <font>
+                                        <Font name="System Bold" size="14.0" />
+                                    </font>
                                 </Button>
-                                <Button fx:id="btnPos" alignment="BASELINE_LEFT" graphicTextGap="15.0" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="240.0" styleClass="nav-button" text="Point of Sale" textFill="#a2a6b6">
+                                <Button fx:id="btnPos" alignment="BASELINE_LEFT" graphicTextGap="15.0" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#btnPosOnAction" prefHeight="50.0" prefWidth="240.0" style="-fx-background-color: transparent; -fx-cursor: hand;" text="Point of Sale" textFill="#a2a6b6">
                                     <padding>
                                         <Insets left="30.0" />
                                     </padding>
+                                    <font>
+                                        <Font size="14.0" />
+                                    </font>
                                 </Button>
-                                <Button fx:id="btnInventory" alignment="BASELINE_LEFT" graphicTextGap="15.0" layoutX="10.0" layoutY="60.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="240.0" styleClass="nav-button" text="Inventory" textFill="#a2a6b6">
+                                <Button fx:id="btnEmployee" alignment="BASELINE_LEFT" graphicTextGap="15.0" mnemonicParsing="false" onAction="#btnEmployeeOnAction" prefHeight="50.0" prefWidth="240.0" style="-fx-background-color: transparent; -fx-cursor: hand;" text="Employees" textFill="#a2a6b6">
                                     <padding>
                                         <Insets left="30.0" />
                                     </padding>
+                                    <font>
+                                        <Font size="14.0" />
+                                    </font>
                                 </Button>
-                                <Button fx:id="btnCustomers" alignment="BASELINE_LEFT" graphicTextGap="15.0" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="240.0" styleClass="nav-button" text="Customers" textFill="#a2a6b6">
+                                <Button fx:id="btnInventory" alignment="BASELINE_LEFT" graphicTextGap="15.0" layoutX="10.0" layoutY="60.0" mnemonicParsing="false" onAction="#btnInventoryOnAction" prefHeight="50.0" prefWidth="240.0" style="-fx-background-color: transparent; -fx-cursor: hand;" text="Inventory" textFill="#a2a6b6">
                                     <padding>
                                         <Insets left="30.0" />
                                     </padding>
+                                    <font>
+                                        <Font size="14.0" />
+                                    </font>
                                 </Button>
-                                <Button fx:id="btnReports" alignment="BASELINE_LEFT" graphicTextGap="15.0" layoutX="10.0" layoutY="160.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="240.0" styleClass="nav-button" text="Reports" textFill="#a2a6b6">
+                                <Button fx:id="btnCustomers" alignment="BASELINE_LEFT" graphicTextGap="15.0" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" onAction="#btnCustomersOnAction" prefHeight="50.0" prefWidth="240.0" style="-fx-background-color: transparent; -fx-cursor: hand;" text="Customers" textFill="#a2a6b6">
                                     <padding>
                                         <Insets left="30.0" />
                                     </padding>
+                                    <font>
+                                        <Font size="14.0" />
+                                    </font>
+                                </Button>
+                                <Button fx:id="btnReports" alignment="BASELINE_LEFT" graphicTextGap="15.0" layoutX="10.0" layoutY="160.0" mnemonicParsing="false" onAction="#btnReportsOnAction" prefHeight="50.0" prefWidth="240.0" style="-fx-background-color: transparent; -fx-cursor: hand;" text="Reports" textFill="#a2a6b6">
+                                    <padding>
+                                        <Insets left="30.0" />
+                                    </padding>
+                                    <font>
+                                        <Font size="14.0" />
+                                    </font>
                                 </Button>
                             </children>
                         </VBox>
-                        <HBox alignment="CENTER_LEFT" prefHeight="70.0" prefWidth="200.0" spacing="15.0" styleClass="user-profile">
+                        <HBox alignment="CENTER_LEFT" prefHeight="70.0" prefWidth="200.0" spacing="15.0" style="-fx-border-color: #3C4459; -fx-border-width: 1 0 0 0;">
                             <padding>
                                 <Insets left="20.0" />
                             </padding>
                             <children>
-                                <Circle fill="DODGERBLUE" radius="18.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="profile-pic" />
+                                <Circle fx:id="imgUserProfile" fill="DODGERBLUE" radius="18.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
                                 <VBox alignment="CENTER_LEFT">
                                     <children>
-                                        <Label styleClass="user-name" text="Admin User" textFill="WHITE" />
-                                        <Label styleClass="user-role" text="Manager" textFill="#898e9e">
+                                        <Label fx:id="lblUserName" text="Admin User" textFill="WHITE" />
+                                        <Label fx:id="lblUserRole" text="Manager" textFill="#898e9e">
                                             <font>
                                                 <Font size="11.0" />
                                             </font>
@@ -98,7 +123,7 @@
 
             <!-- CENTER DASHBOARD CONTENT -->
             <center>
-                <ScrollPane fitToWidth="true" styleClass="transparent-scroll" BorderPane.alignment="CENTER">
+                <ScrollPane fx:id="middlePane" fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent;" BorderPane.alignment="CENTER">
                     <content>
                         <VBox spacing="25.0">
                             <padding>
@@ -109,14 +134,14 @@
                                 <!-- Header Section -->
                                 <HBox alignment="CENTER_LEFT" spacing="20.0">
                                     <children>
-                                        <VBox stylesheets="@../styles/style.css">
+                                        <VBox>
                                             <children>
-                                                <Label text="Dashboard Overview" textFill="#2d3447">
+                                                <Label text="Store Dashboard" textFill="#2d3447">
                                                     <font>
                                                         <Font name="System Bold" size="24.0" />
                                                     </font>
                                                 </Label>
-                                                <Label text="Welcome back, Admin! Here is today's summary." textFill="#888888">
+                                                <Label fx:id="lblDate" text="Real-time analytics and inventory status." textFill="#888888">
                                                     <font>
                                                         <Font size="14.0" />
                                                     </font>
@@ -130,23 +155,23 @@
                                 <!-- KPI Cards Row -->
                                 <HBox spacing="20.0">
                                     <children>
-                                        <!-- Card 1 -->
-                                        <VBox prefHeight="120.0" prefWidth="240.0" style="-fx-background-color: linear-gradient(to right, #4b7bec, #3867d6); -fx-background-radius: 20;" styleClass="kpi-card" HBox.hgrow="ALWAYS">
+                                        <!-- Card 1: Revenue -->
+                                        <VBox prefHeight="120.0" prefWidth="240.0" style="-fx-background-color: linear-gradient(to right, #4b7bec, #3867d6); -fx-background-radius: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);" HBox.hgrow="ALWAYS">
                                             <padding>
                                                 <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                                             </padding>
                                             <children>
-                                                <Label text="Total Sales Today" textFill="#e1e1e1">
+                                                <Label text="Total Revenue" textFill="#e1e1e1">
                                                     <font>
                                                         <Font name="System Bold" size="14.0" />
                                                     </font>
                                                 </Label>
-                                                <Label text="\$1,245.00" textFill="WHITE">
+                                                <Label fx:id="lblTotalRevenue" text="\$2,540.50" textFill="WHITE">
                                                     <font>
                                                         <Font name="System Bold" size="28.0" />
                                                     </font>
                                                 </Label>
-                                                <Label text="+15% from yesterday" textFill="#dff9fb">
+                                                <Label text="+22% this week" textFill="#dff9fb">
                                                     <font>
                                                         <Font size="12.0" />
                                                     </font>
@@ -154,23 +179,23 @@
                                             </children>
                                         </VBox>
 
-                                        <!-- Card 2 -->
-                                        <VBox prefHeight="120.0" prefWidth="240.0" style="-fx-background-color: linear-gradient(to right, #26de81, #20bf6b); -fx-background-radius: 20;" styleClass="kpi-card" HBox.hgrow="ALWAYS">
+                                        <!-- Card 2: Orders -->
+                                        <VBox prefHeight="120.0" prefWidth="240.0" style="-fx-background-color: linear-gradient(to right, #19662b, #1a9c54); -fx-background-radius: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);" HBox.hgrow="ALWAYS">
                                             <padding>
                                                 <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                                             </padding>
                                             <children>
-                                                <Label text="Orders Completed" textFill="#e1e1e1">
+                                                <Label text="Active Orders" textFill="#e1e1e1">
                                                     <font>
-                                                        <Font name="System Bold" size="25.0" />
+                                                        <Font name="System Bold" size="14.0" />
                                                     </font>
                                                 </Label>
-                                                <Label text="42" textFill="WHITE">
+                                                <Label fx:id="lblActiveOrders" text="58" textFill="WHITE">
                                                     <font>
                                                         <Font name="System Bold" size="28.0" />
                                                     </font>
                                                 </Label>
-                                                <Label text="Running smoothly" textFill="#dff9fb">
+                                                <Label text="12 pending shipment" textFill="#dff9fb">
                                                     <font>
                                                         <Font size="12.0" />
                                                     </font>
@@ -178,23 +203,47 @@
                                             </children>
                                         </VBox>
 
-                                        <!-- Card 3 -->
-                                        <VBox prefHeight="120.0" prefWidth="240.0" style="-fx-background-color: linear-gradient(to right, #a55eea, #8854d0); -fx-background-radius: 20;" styleClass="kpi-card" HBox.hgrow="ALWAYS">
+                                        <!-- Card 3: Customers -->
+                                        <VBox prefHeight="120.0" prefWidth="240.0" style="-fx-background-color: linear-gradient(to right, #a55eea, #8854d0); -fx-background-radius: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);" HBox.hgrow="ALWAYS">
                                             <padding>
                                                 <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                                             </padding>
                                             <children>
                                                 <Label text="Total Customers" textFill="#e1e1e1">
                                                     <font>
-                                                        <Font name="System Bold" size="30.0" />
+                                                        <Font name="System Bold" size="14.0" />
                                                     </font>
                                                 </Label>
-                                                <Label text="1,056" textFill="WHITE">
+                                                <Label fx:id="lblTotalCustomers" text="1,203" textFill="WHITE">
                                                     <font>
                                                         <Font name="System Bold" size="28.0" />
                                                     </font>
                                                 </Label>
-                                                <Label text="+3 new today" textFill="#dff9fb">
+                                                <Label text="+18 new today" textFill="#dff9fb">
+                                                    <font>
+                                                        <Font size="12.0" />
+                                                    </font>
+                                                </Label>
+                                            </children>
+                                        </VBox>
+
+                                        <!-- Card 4: Items Sold -->
+                                        <VBox prefHeight="120.0" prefWidth="240.0" style="-fx-background-color: linear-gradient(to right, #eb3b5a, #fc5c65); -fx-background-radius: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);" HBox.hgrow="ALWAYS">
+                                            <padding>
+                                                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                            </padding>
+                                            <children>
+                                                <Label text="Items Sold" textFill="#e1e1e1">
+                                                    <font>
+                                                        <Font name="System Bold" size="14.0" />
+                                                    </font>
+                                                </Label>
+                                                <Label fx:id="lblItemsSold" text="142" textFill="WHITE">
+                                                    <font>
+                                                        <Font name="System Bold" size="28.0" />
+                                                    </font>
+                                                </Label>
+                                                <Label text="Stock health good" textFill="#dff9fb">
                                                     <font>
                                                         <Font size="12.0" />
                                                     </font>
@@ -204,21 +253,21 @@
                                     </children>
                                 </HBox>
 
-                                <!-- Charts Section -->
+                                <!-- CHART & TRENDING SECTION -->
                                 <HBox prefHeight="350.0" spacing="20.0">
                                     <children>
-                                        <!-- Revenue Chart -->
-                                        <VBox styleClass="chart-pane" HBox.hgrow="ALWAYS">
+                                        <!-- REVENUE CHART -->
+                                        <VBox style="-fx-background-color: white; -fx-background-radius: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 3);" HBox.hgrow="ALWAYS">
                                             <children>
                                                 <Label text="Revenue Analytics (Weekly)" textFill="#2d3447">
                                                     <font>
                                                         <Font name="System Bold" size="16.0" />
                                                     </font>
                                                     <VBox.margin>
-                                                        <Insets bottom="10.0" left="15.0" top="15.0" />
+                                                        <Insets bottom="10.0" left="20.0" top="20.0" />
                                                     </VBox.margin>
                                                 </Label>
-                                                <BarChart fx:id="revenueChart" legendSide="TOP" titleSide="BOTTOM">
+                                                <BarChart fx:id="revenueChart" animated="false" legendVisible="false" verticalGridLinesVisible="false">
                                                     <xAxis>
                                                         <CategoryAxis label="Day" side="BOTTOM" />
                                                     </xAxis>
@@ -229,25 +278,47 @@
                                             </children>
                                         </VBox>
 
-                                        <!-- Categories Pie Chart -->
-                                        <VBox prefWidth="400.0" styleClass="chart-pane">
+                                        <!-- Trending / Top Selling List -->
+                                        <VBox prefWidth="400.0" style="-fx-background-color: white; -fx-background-radius: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 3);">
+                                            <padding>
+                                                <Insets bottom="15.0" left="20.0" right="20.0" top="20.0" />
+                                            </padding>
                                             <children>
-                                                <Label text="Top Categories" textFill="#2d3447">
+                                                <Label text="Trending This Week" textFill="#2d3447">
                                                     <font>
                                                         <Font name="System Bold" size="16.0" />
                                                     </font>
                                                     <VBox.margin>
-                                                        <Insets bottom="10.0" left="15.0" top="15.0" />
+                                                        <Insets bottom="10.0" />
                                                     </VBox.margin>
                                                 </Label>
-                                                <PieChart fx:id="categoryChart" legendSide="BOTTOM" />
+                                                <VBox fx:id="vboxTrending" spacing="10.0">
+                                                    <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-border-color: #eee; -fx-border-width: 0 0 1 0; -fx-padding: 5;">
+                                                        <Label text="1." textFill="#888" />
+                                                        <Label fx:id="lblTrend1Name" text="Slim Fit Denim" textFill="#333" HBox.hgrow="ALWAYS" />
+                                                        <Region HBox.hgrow="ALWAYS" />
+                                                        <Label fx:id="lblTrend1Sold" style="-fx-font-weight: bold;" text="124 sold" textFill="#26de81" />
+                                                    </HBox>
+                                                    <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-border-color: #eee; -fx-border-width: 0 0 1 0; -fx-padding: 5;">
+                                                        <Label text="2." textFill="#888" />
+                                                        <Label fx:id="lblTrend2Name" text="Summer Floral Dress" textFill="#333" HBox.hgrow="ALWAYS" />
+                                                        <Region HBox.hgrow="ALWAYS" />
+                                                        <Label fx:id="lblTrend2Sold" style="-fx-font-weight: bold;" text="98 sold" textFill="#26de81" />
+                                                    </HBox>
+                                                    <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-border-color: #eee; -fx-border-width: 0 0 1 0; -fx-padding: 5;">
+                                                        <Label text="3." textFill="#888" />
+                                                        <Label fx:id="lblTrend3Name" text="Basic White Tee" textFill="#333" HBox.hgrow="ALWAYS" />
+                                                        <Region HBox.hgrow="ALWAYS" />
+                                                        <Label fx:id="lblTrend3Sold" style="-fx-font-weight: bold;" text="85 sold" textFill="#26de81" />
+                                                    </HBox>
+                                                </VBox>
                                             </children>
                                         </VBox>
                                     </children>
                                 </HBox>
 
                                 <!-- Recent Orders Table -->
-                                <VBox styleClass="chart-pane" VBox.vgrow="ALWAYS">
+                                <VBox style="-fx-background-color: white; -fx-background-radius: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 3);" VBox.vgrow="ALWAYS">
                                     <children>
                                         <HBox alignment="CENTER_LEFT">
                                             <VBox.margin>
@@ -260,141 +331,186 @@
                                                     </font>
                                                 </Label>
                                                 <Pane HBox.hgrow="ALWAYS" />
-                                                <Button styleClass="clear-btn" text="View All" textFill="#4b7bec" />
+                                                <Button fx:id="btnViewAllOrders" onAction="#btnViewAllOrdersOnAction" style="-fx-background-color: transparent; -fx-text-fill: #4b7bec; -fx-cursor: hand;" text="View All" />
                                             </children>
                                         </HBox>
-                                        <TableView fx:id="tblRecentOrders" prefHeight="200.0" styleClass="cart-table">
+
+                                        <TableView fx:id="tblRecentOrders" prefHeight="200.0" style="-fx-background-color: #2D3447; -fx-border-width: 0; -fx-text-fill: #2d3447; visibility: true;">
                                             <columns>
-                                                <TableColumn prefWidth="100.0" text="Order ID" />
-                                                <TableColumn prefWidth="150.0" text="Customer" />
-                                                <TableColumn prefWidth="80.0" text="Items" />
-                                                <TableColumn prefWidth="150.0" text="Date" />
-                                                <TableColumn prefWidth="100.0" text="Amount" />
-                                                <TableColumn prefWidth="100.0" text="Status" />
+                                                <TableColumn fx:id="colOrderId" prefWidth="100.0" text="Order ID" />
+                                                <TableColumn fx:id="colCustomer" prefWidth="150.0" text="Customer" />
+                                                <TableColumn fx:id="colItems" prefWidth="80.0" text="Items" />
+                                                <TableColumn fx:id="colDate" prefWidth="150.0" text="Date" />
+                                                <TableColumn fx:id="colAmount" prefWidth="100.0" text="Amount" />
+                                                <TableColumn fx:id="colStatus" prefWidth="100.0" text="Status" />
                                             </columns>
                                             <columnResizePolicy>
                                                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                             </columnResizePolicy>
+                                            <opaqueInsets>
+                                                <Insets />
+                                            </opaqueInsets>
                                         </TableView>
                                     </children>
                                 </VBox>
+
                             </children>
                         </VBox>
                     </content>
                 </ScrollPane>
             </center>
 
-            <!-- RIGHT SIDEBAR (Tasks & Calendar) -->
+            <!-- RIGHT SIDEBAR -->
             <right>
-                <VBox prefHeight="800.0" prefWidth="300.0" spacing="20.0" styleClass="cart-pane" BorderPane.alignment="CENTER">
+                <VBox fx:id="rightSidePane" prefHeight="800.0" prefWidth="300.0" spacing="20.0" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, -5, 0);" BorderPane.alignment="CENTER">
                     <padding>
                         <Insets bottom="20.0" left="20.0" right="20.0" top="30.0" />
                     </padding>
                     <children>
-                        <!-- Header for Right Pane -->
+                        <!-- Header -->
                         <HBox alignment="CENTER_LEFT" spacing="10.0">
                             <children>
-                                <Label text="Overview" textFill="#2d3447">
+                                <Label text="Store Notices" textFill="#2d3447">
                                     <font>
                                         <Font name="System Bold" size="18.0" />
                                     </font>
                                 </Label>
                                 <Region HBox.hgrow="ALWAYS" />
-                                <Label style="-fx-font-weight: bold; -fx-font-size: 14;" text="Nov 26" textFill="#4b7bec" />
+                                <Circle fx:id="notifIndicator" fill="#eb3b5a" radius="5.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
                             </children>
                         </HBox>
 
-                        <!-- Section 1: Monthly Goal -->
-                        <VBox spacing="10.0" styleClass="chart-pane">
+                        <!-- Section 1: Notifications -->
+                        <VBox fx:id="vboxNotifications" spacing="15.0">
+                            <children>
+                                <Label style="-fx-font-weight: bold; -fx-font-size: 12;" text="System Alerts" textFill="#888" />
+
+                                <HBox spacing="10.0" style="-fx-background-color: #fff0f1; -fx-background-radius: 8; -fx-padding: 10;">
+                                    <children>
+                                        <Label style="-fx-font-weight: bold; -fx-font-size: 18;" text="!" textFill="#eb3b5a" />
+                                        <VBox>
+                                            <Label style="-fx-font-weight: bold;" text="Low Stock Warning" textFill="#333" />
+                                            <Label style="-fx-font-size: 11;" text="5 items below threshold" textFill="#666" />
+                                        </VBox>
+                                    </children>
+                                </HBox>
+
+                                <HBox spacing="10.0" style="-fx-background-color: #eef2fa; -fx-background-radius: 8; -fx-padding: 10;">
+                                    <children>
+                                        <Label style="-fx-font-weight: bold; -fx-font-size: 18;" text="i" textFill="#4b7bec" />
+                                        <VBox>
+                                            <Label style="-fx-font-weight: bold;" text="System Update" textFill="#333" />
+                                            <Label style="-fx-font-size: 11;" text="Scheduled for tonight 2am" textFill="#666" />
+                                        </VBox>
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+
+                        <!-- Section 2: Cashier Status -->
+                        <VBox fx:id="vboxCashiers" style="-fx-background-color: #FAFAFA; -fx-border-radius: 10; -fx-border-color: #eee; -fx-border-width: 1;">
                             <padding>
                                 <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                             </padding>
                             <children>
-                                <HBox>
-                                    <children>
-                                        <Label text="Monthly Goal" textFill="#888888" />
-                                        <Region HBox.hgrow="ALWAYS" />
-                                        <Label style="-fx-font-weight: bold;" text="65%" textFill="#4b7bec" />
-                                    </children>
+                                <Label style="-fx-font-weight: bold;" text="Active Cashiers" textFill="#2d3447">
+                                    <VBox.margin>
+                                        <Insets bottom="10.0" />
+                                    </VBox.margin>
+                                </Label>
+                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                    <Circle fill="#26de81" radius="4.0" />
+                                    <Label text="John Doe (POS-1)" textFill="#555" />
+                                    <Region HBox.hgrow="ALWAYS" />
+                                    <Label style="-fx-font-size: 11;" text="2h 15m" textFill="#888" />
                                 </HBox>
-                                <ProgressBar prefWidth="260.0" progress="0.65" style="-fx-accent: #4b7bec; -fx-control-inner-background: #eef2fa;" />
-                                <HBox>
-                                    <children>
-                                        <Label style="-fx-font-weight: bold;" text="\$12,450" textFill="#2d3447" />
-                                        <Region HBox.hgrow="ALWAYS" />
-                                        <Label text="Target: \$20k" textFill="#888888" />
-                                    </children>
+                                <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-padding: 10 0 0 0;">
+                                    <Circle fill="#26de81" radius="4.0" />
+                                    <Label text="Jane Smith (POS-2)" textFill="#555" />
+                                    <Region HBox.hgrow="ALWAYS" />
+                                    <Label style="-fx-font-size: 11;" text="45m" textFill="#888" />
                                 </HBox>
                             </children>
                         </VBox>
 
-                        <!-- Section 2: To-Do List -->
-                        <VBox spacing="10.0" VBox.vgrow="ALWAYS">
+                        <!-- Section 3: Monthly Goal -->
+                        <VBox prefHeight="86.0" prefWidth="260.0" spacing="5.0">
                             <children>
-                                <Label text="Pending Tasks" textFill="#2d3447">
-                                    <font>
-                                        <Font name="System Bold" size="16.0" />
-                                    </font>
+                                <Label style="-fx-font-weight: bold;" text="Monthly Target" textFill="#2d3447">
+                                    <VBox.margin>
+                                        <Insets bottom="5.0" top="10.0" />
+                                    </VBox.margin>
                                 </Label>
-                                <VBox spacing="12.0">
+                                <ProgressBar fx:id="progressMonthlyGoal" prefWidth="260.0" progress="0.72" style="-fx-accent: #4b7bec; -fx-control-inner-background: #eef2fa;" />
+                                <HBox>
                                     <children>
-                                        <CheckBox text="Restock Summer Collection" textFill="#555555" />
-                                        <CheckBox text="Call Distributor (StyleCorp)" textFill="#555555" />
-                                        <CheckBox text="Update Staff Roster" textFill="#555555" />
-                                        <CheckBox text="Review Monthly Tax" textFill="#555555" />
-                                        <CheckBox selected="true" text="Check Inventory Alerts" textFill="#555555" />
+                                        <Label fx:id="lblMonthlyGoalValue" style="-fx-font-weight: bold;" text="\$12,450" textFill="#4b7bec" />
+                                        <Region HBox.hgrow="ALWAYS" />
+                                        <Label fx:id="lblMonthlyGoalPercent" text="72%" textFill="#888" />
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                        <VBox prefHeight="302.0" prefWidth="260.0" spacing="10" style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 12; -fx-border-color: #e5e7eb; -fx-border-width: 1; -fx-border-radius: 12;">
+                            <effect>
+                                <DropShadow color="#00000011" radius="8.0" spread="0.1" />
+                            </effect>
+                            <children>
+                                <HBox alignment="CENTER_LEFT" spacing="70">
+                                    <children>
+                                        <Label prefHeight="18.0" prefWidth="114.0" style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #1f2937;" text="Customer Review">
+                                            <font>
+                                                <Font size="10.0" />
+                                            </font>
+                                        </Label>
+                                        <Text fill="#22c55e" strokeType="OUTSIDE" strokeWidth="0.0" text="🔄">
+                                            <font>
+                                                <Font size="16.0" />
+                                            </font>
+                                        </Text>
+                                    </children>
+                                </HBox>
+                                <HBox spacing="5">
+                                    <children>
+                                        <Label style="-fx-font-size: 11px; -fx-text-fill: #fbbf24;" text="⭐⭐⭐⭐☆" />
+                                        <Label style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #1f2937;" text="4.0" />
+                                        <Label style="-fx-font-size: 11px; -fx-text-fill: #6b7280;" text="out of 5 star" />
+                                    </children>
+                                </HBox>
+                                <VBox spacing="12" style="-fx-padding: 5 0 0 0;">
+                                    <children>
+                                        <HBox alignment="CENTER_LEFT" spacing="10">
+                                            <children>
+                                                <Label prefWidth="65" style="-fx-font-size: 11px; -fx-text-fill: #6b7280;" text="Excellent" />
+                                                <Rectangle arcHeight="8.0" arcWidth="8.0" fill="#22c55e" height="8.0" width="160.0" />
+                                            </children>
+                                        </HBox>
+                                        <HBox alignment="CENTER_LEFT" spacing="10">
+                                            <children>
+                                                <Label prefWidth="65" style="-fx-font-size: 11px; -fx-text-fill: #6b7280;" text="Good" />
+                                                <Rectangle arcHeight="8.0" arcWidth="8.0" fill="#22c55e" height="8.0" width="140.0" />
+                                            </children>
+                                        </HBox>
+                                        <HBox alignment="CENTER_LEFT" spacing="10">
+                                            <children>
+                                                <Label prefWidth="65" style="-fx-font-size: 11px; -fx-text-fill: #6b7280;" text="Average" />
+                                                <Rectangle arcHeight="8.0" arcWidth="8.0" fill="#fbbf24" height="8.0" width="100.0" />
+                                            </children>
+                                        </HBox>
+                                        <HBox alignment="CENTER_LEFT" spacing="10">
+                                            <children>
+                                                <Label prefWidth="65" style="-fx-font-size: 11px; -fx-text-fill: #6b7280;" text="Avg Below" />
+                                                <Rectangle arcHeight="8.0" arcWidth="8.0" fill="#f97316" height="8.0" width="70.0" />
+                                            </children>
+                                        </HBox>
+                                        <HBox alignment="CENTER_LEFT" spacing="10">
+                                            <children>
+                                                <Label prefWidth="65" style="-fx-font-size: 11px; -fx-text-fill: #6b7280;" text="Poor" />
+                                                <Rectangle arcHeight="8.0" arcWidth="8.0" fill="#ef4444" height="8.0" width="40.0" />
+                                            </children>
+                                        </HBox>
                                     </children>
                                 </VBox>
-                            </children>
-                            <padding>
-                                <Insets top="10.0" />
-                            </padding>
-                        </VBox>
-
-                        <!-- Section 3: Upcoming Events / Calendar -->
-                        <VBox spacing="15.0">
-                            <children>
-                                <Label text="Upcoming Events" textFill="#2d3447">
-                                    <font>
-                                        <Font name="System Bold" size="16.0" />
-                                    </font>
-                                </Label>
-
-                                <!-- Event 1 -->
-                                <HBox spacing="15.0" style="-fx-background-color: #f8f9fa; -fx-background-radius: 10; -fx-padding: 10;">
-                                    <children>
-                                        <VBox alignment="CENTER" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #fff; -fx-background-radius: 8; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 3, 0, 0, 1);">
-                                            <children>
-                                                <Label style="-fx-font-weight: bold; -fx-font-size: 16;" text="28" textFill="#4b7bec" />
-                                                <Label style="-fx-font-size: 10;" text="NOV" textFill="#888888" />
-                                            </children>
-                                        </VBox>
-                                        <VBox alignment="CENTER_LEFT">
-                                            <children>
-                                                <Label style="-fx-font-weight: bold;" text="Staff Meeting" textFill="#2d3447" />
-                                                <Label style="-fx-font-size: 12;" text="10:00 AM - Conf Room" textFill="#888888" />
-                                            </children>
-                                        </VBox>
-                                    </children>
-                                </HBox>
-
-                                <!-- Event 2 -->
-                                <HBox spacing="15.0" style="-fx-background-color: #f8f9fa; -fx-background-radius: 10; -fx-padding: 10;">
-                                    <children>
-                                        <VBox alignment="CENTER" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #fff; -fx-background-radius: 8; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 3, 0, 0, 1);">
-                                            <children>
-                                                <Label style="-fx-font-weight: bold; -fx-font-size: 16;" text="01" textFill="#eb3b5a" />
-                                                <Label style="-fx-font-size: 10;" text="DEC" textFill="#888888" />
-                                            </children>
-                                        </VBox>
-                                        <VBox alignment="CENTER_LEFT">
-                                            <children>
-                                                <Label style="-fx-font-weight: bold;" text="Inventory Audit" textFill="#2d3447" />
-                                                <Label style="-fx-font-size: 12;" text="All Day - Warehouse" textFill="#888888" />
-                                            </children>
-                                        </VBox>
-                                    </children>
-                                </HBox>
                             </children>
                         </VBox>
 
