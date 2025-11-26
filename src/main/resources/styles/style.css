@@ -1,7 +1,13 @@
-
 .root-pane {
     -fx-font-family: 'Segoe UI', sans-serif;
     -fx-background-color: #F4F6F8;
+}
+.table-view .table-cell {
+    -fx-text-fill: black;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: black;
 }
 
 .sidebar {
