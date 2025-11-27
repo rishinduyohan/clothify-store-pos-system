@@ -1,7 +1,8 @@
-package edu.icet.ecom.controller;
+package edu.icet.clothify.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -9,8 +10,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
-public class PosController {
+import java.net.URL;
+import java.util.ResourceBundle;
 
+public class PosController implements Initializable {
     @FXML
     private Button btnCatAcc;
 
@@ -69,4 +72,8 @@ public class PosController {
 
     }
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+    }
 }

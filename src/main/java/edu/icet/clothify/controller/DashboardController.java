@@ -1,4 +1,4 @@
-package edu.icet.ecom.controller;
+package edu.icet.clothify.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

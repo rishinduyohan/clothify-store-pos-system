@@ -1,4 +1,4 @@
-package edu.icet.ecom.config;
+package edu.icet.clothify.config;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;

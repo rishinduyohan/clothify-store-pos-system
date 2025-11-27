@@ -1,4 +1,4 @@
-package edu.icet.ecom;
+package edu.icet.clothify;
 
 public class Main {
      public static void main(String[] args) {

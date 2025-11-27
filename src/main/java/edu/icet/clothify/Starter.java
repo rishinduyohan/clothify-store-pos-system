@@ -1,4 +1,4 @@
-package edu.icet.ecom;
+package edu.icet.clothify;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
