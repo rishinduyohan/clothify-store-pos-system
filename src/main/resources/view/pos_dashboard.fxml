@@ -19,7 +19,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #F4F6F8; -fx-font-family: 'Segoe UI';" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.icet.ecom.controller.PosController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #F4F6F8; -fx-font-family: 'Segoe UI';" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.icet.clothify.controller.PosController">
     <children>
         <!-- Main Layout Container -->
         <HBox layoutX="20.0" layoutY="20.0" spacing="20.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
@@ -80,7 +80,7 @@
                                         <!-- ITEM 1 -->
                                         <VBox alignment="CENTER" style="-fx-background-color: white; -fx-background-radius: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5); -fx-cursor: hand;" GridPane.columnIndex="0">
                                             <children>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                                <ImageView fitHeight="169.0" fitWidth="278.0" pickOnBounds="true" preserveRatio="true">
                                                     <image>
                                                         <Image url="https://placehold.co/250x180/4b7bec/FFFFFF?text=Slim+Fit+Jeans" />
                                                     </image>
@@ -102,74 +102,6 @@
                                                         <HBox alignment="CENTER_LEFT" spacing="10.0">
                                                             <children>
                                                                 <Label style="-fx-font-weight: bold; -fx-font-size: 18;" text="\$45.00" textFill="#4b7bec" />
-                                                                <Region HBox.hgrow="ALWAYS" />
-                                                                <Button style="-fx-background-color: #eef2fa; -fx-text-fill: #4b7bec; -fx-background-radius: 8; -fx-font-weight: bold; -fx-cursor: hand;" text="Add to Cart" />
-                                                            </children>
-                                                        </HBox>
-                                                    </children>
-                                                </VBox>
-                                            </children>
-                                        </VBox>
-
-                                        <!-- ITEM 2 -->
-                                        <VBox alignment="CENTER" style="-fx-background-color: white; -fx-background-radius: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5); -fx-cursor: hand;" GridPane.columnIndex="1">
-                                            <children>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="https://placehold.co/250x180/26de81/FFFFFF?text=Summer+Dress" />
-                                                    </image>
-                                                    <VBox.margin>
-                                                        <Insets bottom="15.0" top="15.0" />
-                                                    </VBox.margin>
-                                                </ImageView>
-                                                <VBox spacing="5.0">
-                                                    <padding>
-                                                        <Insets bottom="20.0" left="20.0" right="20.0" top="5.0" />
-                                                    </padding>
-                                                    <children>
-                                                        <Label style="-fx-font-weight: bold; -fx-font-size: 16;" text="Summer Dress" textFill="#2d3447" />
-                                                        <Label text="Women's Wear" textFill="#a2a6b6">
-                                                            <font>
-                                                                <Font size="12.0" />
-                                                            </font>
-                                                        </Label>
-                                                        <HBox alignment="CENTER_LEFT" spacing="10.0">
-                                                            <children>
-                                                                <Label style="-fx-font-weight: bold; -fx-font-size: 18;" text="\$35.50" textFill="#4b7bec" />
-                                                                <Region HBox.hgrow="ALWAYS" />
-                                                                <Button style="-fx-background-color: #eef2fa; -fx-text-fill: #4b7bec; -fx-background-radius: 8; -fx-font-weight: bold; -fx-cursor: hand;" text="Add to Cart" />
-                                                            </children>
-                                                        </HBox>
-                                                    </children>
-                                                </VBox>
-                                            </children>
-                                        </VBox>
-
-                                        <!-- ITEM 3 -->
-                                        <VBox alignment="CENTER" style="-fx-background-color: white; -fx-background-radius: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5); -fx-cursor: hand;" GridPane.columnIndex="2">
-                                            <children>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="https://placehold.co/250x180/eb3b5a/FFFFFF?text=Leather+Jacket" />
-                                                    </image>
-                                                    <VBox.margin>
-                                                        <Insets bottom="15.0" top="15.0" />
-                                                    </VBox.margin>
-                                                </ImageView>
-                                                <VBox spacing="5.0">
-                                                    <padding>
-                                                        <Insets bottom="20.0" left="20.0" right="20.0" top="5.0" />
-                                                    </padding>
-                                                    <children>
-                                                        <Label style="-fx-font-weight: bold; -fx-font-size: 16;" text="Leather Jacket" textFill="#2d3447" />
-                                                        <Label text="Outerwear" textFill="#a2a6b6">
-                                                            <font>
-                                                                <Font size="12.0" />
-                                                            </font>
-                                                        </Label>
-                                                        <HBox alignment="CENTER_LEFT" spacing="10.0">
-                                                            <children>
-                                                                <Label style="-fx-font-weight: bold; -fx-font-size: 18;" text="\$120.00" textFill="#4b7bec" />
                                                                 <Region HBox.hgrow="ALWAYS" />
                                                                 <Button style="-fx-background-color: #eef2fa; -fx-text-fill: #4b7bec; -fx-background-radius: 8; -fx-font-weight: bold; -fx-cursor: hand;" text="Add to Cart" />
                                                             </children>

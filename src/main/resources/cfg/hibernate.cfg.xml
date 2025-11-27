@@ -7,5 +7,7 @@
 
         <property name="hibernate.hbm2ddl.auto">update</property>
         <property name="hibernate.show_sql">true</property>
+
+        <mapping class="edu.icet.clothify.entity.Product"/>
     </session-factory>
 </hibernate-configuration>
