@@ -2,6 +2,8 @@ package edu.icet.clothify.model.dto;
 
 import lombok.*;
 
+import java.math.BigDecimal;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -12,8 +14,8 @@ public class ProductDTO {
     private String name;
     private String description;
     private String imagePath;
-    private Double price;
+    private BigDecimal price;
     private Integer stockQuantity;
-    private String categoryId;
-    private String supplierId;
+    private Long categoryId;
+    private Long supplierId;
 }

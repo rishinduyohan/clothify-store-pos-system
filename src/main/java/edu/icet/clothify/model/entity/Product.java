@@ -3,26 +3,42 @@ package edu.icet.clothify.model.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-@AllArgsConstructor
+import java.math.BigDecimal;
+
+@Data
 @NoArgsConstructor
-@Getter
-@Setter
+@AllArgsConstructor
 @Entity
+@Table(name = "Products")
 public class Product {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long productId;
+
+    @Id // Primary Key
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Database AUTO_INCREMENT
+    @Column(name = "product_id")
+    private Long productId; // Long type ID
+
+    @Column(name = "name", nullable = false, length = 100)
     private String name;
+
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
+
+    @Column(name = "image_path", length = 255)
     private String imagePath;
-    private Double price;
+
+    @Column(name = "price", nullable = false, precision = 10, scale = 2)
+    private BigDecimal price;
+
+    @Column(name = "stock_quantity")
     private Integer stockQuantity;
 
+    // Foreign Key Mapping for Category (BIGINT FK)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", referencedColumnName = "category_id")
-    private String categoryId;
+    private Category category;
 
+    // Foreign Key Mapping for Supplier (BIGINT FK)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "supplier_id", referencedColumnName = "supplier_id")
-    private String supplierId;
+    private Supplier supplier;
 }
