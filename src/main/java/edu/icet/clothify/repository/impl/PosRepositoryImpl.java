@@ -16,10 +16,6 @@ public class PosRepositoryImpl implements PosRepository {
 
     @Override
     public List<Product> getAllItems() {
-        try {
-            return session.createQuery("FROM Product", Product.class).list();
-        } finally {
-            session.close();
-        }
+        return session.createQuery("FROM Product", Product.class).list();
     }
 }

@@ -16,10 +16,21 @@ public class PosServiceImpl implements PosService {
 
     @Override
     public List<ProductDTO> getALlItems() {
+        list.clear();
         if (posRepository.getAllItems()!=null) {
             for (Product product : posRepository.getAllItems()) {
-                list.add(new ProductDTO());
+                list.add(new ProductDTO(
+                        product.getProductId(),
+                        product.getName(),
+                        product.getDescription(),
+                        product.getImagePath(),
+                        product.getPrice(),
+                        product.getStockQuantity(),
+                        product.getCategory(),
+                        product.getSupplier()
+                ));
             }
         }
+        return list;
     }
 }

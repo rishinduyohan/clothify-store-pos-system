@@ -1,5 +1,7 @@
 package edu.icet.clothify.model.dto;
 
+import edu.icet.clothify.model.entity.Category;
+import edu.icet.clothify.model.entity.Supplier;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -16,6 +18,6 @@ public class ProductDTO {
     private String imagePath;
     private BigDecimal price;
     private Integer stockQuantity;
-    private Long categoryId;
-    private Long supplierId;
+    private Category category;
+    private Supplier supplier;
 }
