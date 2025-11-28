@@ -8,6 +8,8 @@
         <property name="hibernate.hbm2ddl.auto">update</property>
         <property name="hibernate.show_sql">true</property>
 
-        <mapping class="edu.icet.clothify.entity.Product"/>
+        <mapping class="edu.icet.clothify.model.entity.Product"/>
+        <mapping class="edu.icet.clothify.model.entity.Category"/>
+        <mapping class="edu.icet.clothify.model.entity.Supplier"/>
     </session-factory>
 </hibernate-configuration>

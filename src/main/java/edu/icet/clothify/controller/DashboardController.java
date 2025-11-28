@@ -235,7 +235,7 @@ public class DashboardController implements Initializable {
             AnchorPane.setBottomAnchor(loadedUi, 0.0);
 
         } catch (IOException e) {
-            new Alert(Alert.AlertType.INFORMATION, e.getMessage()).show();
+            throw new RuntimeException(e);
         }
     }
 }

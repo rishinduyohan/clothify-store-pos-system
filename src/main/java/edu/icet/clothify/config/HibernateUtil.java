@@ -10,7 +10,7 @@ public class HibernateUtil {
     public static SessionFactory getSessionFactory(Class getClass){
         if (null==sessionFactory){
             configuration.addAnnotatedClass(getClass);
-            configuration.configure();
+            configuration.configure("cfg/hibernate.cfg.xml");
             sessionFactory = configuration.buildSessionFactory();
         }
         return sessionFactory;
