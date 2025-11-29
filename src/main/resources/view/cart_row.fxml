@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="300.0" spacing="10.0" style="-fx-background-color: white; -fx-border-color: #eee; -fx-border-width: 0 0 1 0; -fx-padding: 10;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <VBox HBox.hgrow="ALWAYS">
+            <children>
+                <Label fx:id="lblName" text="Slim Fit Jeans" textFill="#333333">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font>
+                </Label>
+                <Label fx:id="lblQty" text="1 x 4500.00" textFill="#888888">
+                    <font>
+                        <Font size="11.0" />
+                    </font>
+                </Label>
+            </children>
+        </VBox>
+        <Label fx:id="lblTotal" text="4500.00" textFill="#4b7bec">
+            <font>
+                <Font name="System Bold" size="14.0" />
+            </font>
+        </Label>
+        <Button fx:id="btnRemove" mnemonicParsing="false" style="-fx-background-color: #ffdddd; -fx-text-fill: red;" text="X" />
+    </children>
+</HBox>
