@@ -12,10 +12,10 @@ import java.math.BigDecimal;
 @Table(name = "Products")
 public class Product {
 
-    @Id // Primary Key
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Database AUTO_INCREMENT
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
-    private Long productId; // Long type ID
+    private Long productId;
 
     @Column(name = "name", nullable = false, length = 100)
     private String name;
@@ -32,12 +32,10 @@ public class Product {
     @Column(name = "stock_quantity")
     private Integer stockQuantity;
 
-    // Foreign Key Mapping for Category (BIGINT FK)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", referencedColumnName = "category_id")
     private Category category;
 
-    // Foreign Key Mapping for Supplier (BIGINT FK)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "supplier_id", referencedColumnName = "supplier_id")
     private Supplier supplier;

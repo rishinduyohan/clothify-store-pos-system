@@ -17,8 +17,16 @@ public class Supplier {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "supplier_id")
     private Long supplierId;
+
+    @Column(name = "company_name")
     private String companyName;
+
+    @Column(name = "contact_number")
     private String contactNumber;
+
+    @Column(name = "email")
     private String email;
+
+    @Column(name = "address")
     private String address;
 }
