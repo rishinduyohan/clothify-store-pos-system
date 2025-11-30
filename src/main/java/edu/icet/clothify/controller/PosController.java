@@ -83,6 +83,8 @@ public class PosController implements Initializable {
     @FXML
     public Button btnPlaceOrder;
 
+    public Button btnClearAll;
+
     @FXML
     void btnPlaceOrderOnAction(ActionEvent event) {
     }
@@ -95,5 +97,11 @@ public class PosController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         posService.loadProductsToGrid(productGrid,cartContainer,lblTotal);
+    }
+
+    public void btnClearAllOnAction(ActionEvent actionEvent) {
+        if (posService.clearCart()){
+            new Alert(Alert.AlertType.CONFIRMATION, "Item removed!").show();
+        }
     }
 }

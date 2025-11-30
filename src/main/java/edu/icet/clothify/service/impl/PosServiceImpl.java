@@ -9,7 +9,6 @@ import edu.icet.clothify.service.PosService;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.Labeled;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -29,7 +28,8 @@ public class PosServiceImpl implements PosService {
     PosRepository posRepository = new PosRepositoryImpl();
     List<ProductDTO> list = new ArrayList<>();
     private List<CartItemDTO> cartItems = new ArrayList<>();
-    Label lblTotal = null;
+    private Label totalValue = null;
+    private VBox cartContainer;
 
     @Override
     public List<ProductDTO> getALlItems() {
@@ -57,7 +57,8 @@ public class PosServiceImpl implements PosService {
         List<ProductDTO> products = getALlItems();
         int column = 0;
         int row = 0;
-        this.lblTotal = lblTotal;
+        this.totalValue = lblTotal;
+        this.cartContainer = cartContainer;
 
         try {
             if(products!=null) {
@@ -109,6 +110,14 @@ public class PosServiceImpl implements PosService {
         }
     }
 
+    @Override
+    public boolean clearCart() {
+       cartItems.clear();
+       cartContainer.getChildren().clear();
+       totalValue.setText("LKR 0.00");
+       return true;
+    }
+
     public void addToCart(ProductDTO product,VBox cartContainer) {
         Optional<CartItemDTO> existingItem = cartItems.stream()
                 .filter(item -> item.getProduct().getProductId().equals(product.getProductId()))
@@ -154,6 +163,7 @@ public class PosServiceImpl implements PosService {
                 e.printStackTrace();
             }
         }
-        lblTotal.setText(netTotal.toPlainString());
+        totalValue.setText(netTotal.toPlainString());
     }
+
 }

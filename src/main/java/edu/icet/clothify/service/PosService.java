@@ -11,4 +11,5 @@ public interface PosService {
 
     List<ProductDTO> getALlItems();
     void loadProductsToGrid(GridPane productGrid, VBox cartContainer, Label lblTotal);
+    boolean clearCart();
 }
