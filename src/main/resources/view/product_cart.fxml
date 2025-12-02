@@ -39,7 +39,7 @@
                         </Label>
                         <HBox alignment="CENTER_LEFT" spacing="10.0">
                             <children>
-                                <Label fx:id="lblPrice" prefHeight="27.0" prefWidth="102.0" style="-fx-font-weight: bold; -fx-font-size: 18;" text="\$45.00" textFill="#4b7bec" />
+                                <Label fx:id="lblPrice" prefHeight="27.0" prefWidth="134.0" style="-fx-font-weight: bold; -fx-font-size: 18;" text="\$45.00" textFill="#4b7bec" />
                                 <Region HBox.hgrow="ALWAYS" />
                                 <Button fx:id="btnAddToCart" style="-fx-background-color: #eef2fa; -fx-text-fill: #4b7bec; -fx-background-radius: 8; -fx-font-weight: bold; -fx-cursor: hand;" text="Add to Cart" />
                             </children>
