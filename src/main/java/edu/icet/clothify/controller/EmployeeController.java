@@ -1,16 +1,14 @@
 package edu.icet.clothify.controller;
 
 import edu.icet.clothify.model.dto.EmployeeDTO;
+import edu.icet.clothify.service.EmployeeService;
+import edu.icet.clothify.service.impl.EmployeeServiceImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 
@@ -18,6 +16,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class EmployeeController implements Initializable {
+    EmployeeService employeeService = new EmployeeServiceImpl();
     ObservableList<String> positions = FXCollections.observableArrayList(
             "Store Manager",
             "Cashier",
@@ -107,11 +106,32 @@ public class EmployeeController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         cmbPosition.setItems(positions);
+
         colId.setCellValueFactory(new PropertyValueFactory<>("employeeId"));
         colFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         colLastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         colPosition.setCellValueFactory(new PropertyValueFactory<>("position"));
         colContact.setCellValueFactory(new PropertyValueFactory<>("contactNumber"));
         colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+        loadTable();
+        tblEmployees.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (null != newValue) {
+                txtEmployeeId.setText(String.valueOf(newValue.getEmployeeId()));
+                txtFirstName.setText(newValue.getFirstName());
+                txtLastName.setText(newValue.getLastName());
+                cmbPosition.setValue(newValue.getPosition());
+                txtContact.setText(newValue.getContactNumber());
+                txtEmail.setText(newValue.getEmail());
+            }
+        });
+    }
+
+    public void loadTable(){
+        ObservableList<EmployeeDTO> employeeDTOS = employeeService.getAllEmployees();
+        if (employeeDTOS!=null) {
+            tblEmployees.setItems(employeeDTOS);
+        }else{
+            new Alert(Alert.AlertType.ERROR,"Customer details are empty!").show();
+        }
     }
 }
