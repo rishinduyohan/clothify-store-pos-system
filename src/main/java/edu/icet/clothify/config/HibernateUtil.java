@@ -7,9 +7,8 @@ public class HibernateUtil {
     private static final Configuration configuration = new Configuration();
     private static SessionFactory sessionFactory;
 
-    public static SessionFactory getSessionFactory(Class getClass){
+    public static SessionFactory getSessionFactory(){
         if (null==sessionFactory){
-            configuration.addAnnotatedClass(getClass);
             configuration.configure("cfg/hibernate.cfg.xml");
             sessionFactory = configuration.buildSessionFactory();
         }
