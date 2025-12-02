@@ -40,7 +40,7 @@
                                     </children>
                                 </VBox>
                                 <Region HBox.hgrow="ALWAYS" />
-                                <TextField fx:id="txtSearch" prefHeight="40.0" prefWidth="300.0" promptText="Search by ID or Name..." style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #E1E1E1; -fx-border-radius: 20; -fx-padding: 0 15 0 15;" />
+                                <TextField fx:id="txtSearch" onAction="#searchOnAction" prefHeight="40.0" prefWidth="300.0" promptText="Search by ID or Name..." style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #E1E1E1; -fx-border-radius: 20; -fx-padding: 0 15 0 15;" />
                             </children>
                         </HBox>
 

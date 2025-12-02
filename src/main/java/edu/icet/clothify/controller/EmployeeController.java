@@ -17,6 +17,7 @@ import java.util.ResourceBundle;
 
 public class EmployeeController implements Initializable {
     EmployeeService employeeService = new EmployeeServiceImpl();
+    ObservableList<EmployeeDTO> employeeDTOS = FXCollections.observableArrayList();
     ObservableList<String> positions = FXCollections.observableArrayList(
             "Store Manager",
             "Cashier",
@@ -83,24 +84,47 @@ public class EmployeeController implements Initializable {
     @FXML
     private TextField txtSearch;
 
+    private EmployeeDTO getCurrentCustomer(){
+        Long id = Long.valueOf(txtEmployeeId.getText());
+        String firstName = txtFirstName.getText();
+        String lastName = txtLastName.getText();
+        String position = cmbPosition.getValue();
+        String contact = txtContact.getText();
+        String email = txtEmail.getText();
+        return new EmployeeDTO(id,firstName,lastName,position,contact,email);
+    }
     @FXML
     void btnClearOnAction(ActionEvent event) {
-
+        txtEmployeeId.setText("Auto-Generated");
+        txtFirstName.setText("");
+        txtLastName.setText("");
+        cmbPosition.setValue("");
+        txtContact.setText("");
+        txtEmail.setText("");
     }
 
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
-
+        if (employeeService.deleteEmployee(getCurrentCustomer())){
+            new Alert(Alert.AlertType.CONFIRMATION,"Employee Deleted!").show();
+        }
+        loadTable();
     }
 
     @FXML
     void btnSaveOnAction(ActionEvent event) {
-
+        if (employeeService.addEmployee(getCurrentCustomer())){
+            new Alert(Alert.AlertType.CONFIRMATION,"New Employee added!").show();
+        }
+        loadTable();
     }
 
     @FXML
     void btnUpdateOnAction(ActionEvent event) {
-
+        if (employeeService.updateEmployee(getCurrentCustomer())){
+            new Alert(Alert.AlertType.CONFIRMATION,"Employee details updated!").show();
+        }
+        loadTable();
     }
 
     @Override
@@ -127,11 +151,24 @@ public class EmployeeController implements Initializable {
     }
 
     public void loadTable(){
-        ObservableList<EmployeeDTO> employeeDTOS = employeeService.getAllEmployees();
+        employeeDTOS.clear();
+        employeeDTOS = employeeService.getAllEmployees();
         if (employeeDTOS!=null) {
             tblEmployees.setItems(employeeDTOS);
         }else{
-            new Alert(Alert.AlertType.ERROR,"Customer details are empty!").show();
+            new Alert(Alert.AlertType.ERROR,"Employee details are empty!").show();
+        }
+    }
+
+    public void searchOnAction(ActionEvent actionEvent) {
+        EmployeeDTO employeeDTO = employeeService.searchEmployee(Long.valueOf(txtSearch.getText()));
+        if (employeeDTO!=null){
+            txtEmployeeId.setText(String.valueOf(employeeDTO.getEmployeeId()));
+            txtFirstName.setText(employeeDTO.getFirstName());
+            txtLastName.setText(employeeDTO.getLastName());
+            cmbPosition.setValue(employeeDTO.getPosition());
+            txtContact.setText(employeeDTO.getContactNumber());
+            txtEmail.setText(employeeDTO.getEmail());
         }
     }
 }
