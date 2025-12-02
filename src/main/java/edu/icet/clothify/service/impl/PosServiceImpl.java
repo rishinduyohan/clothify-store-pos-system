@@ -1,8 +1,7 @@
 package edu.icet.clothify.service.impl;
 
-import edu.icet.clothify.model.dto.CartItemDTO;
+import edu.icet.clothify.model.entity.*;
 import edu.icet.clothify.model.dto.ProductDTO;
-import edu.icet.clothify.model.entity.Product;
 import edu.icet.clothify.repository.PosRepository;
 import edu.icet.clothify.repository.impl.PosRepositoryImpl;
 import edu.icet.clothify.service.PosService;
@@ -19,7 +18,9 @@ import javafx.scene.layout.VBox;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,7 +28,7 @@ public class PosServiceImpl implements PosService {
 
     PosRepository posRepository = new PosRepositoryImpl();
     List<ProductDTO> list = new ArrayList<>();
-    private List<CartItemDTO> cartItems = new ArrayList<>();
+    private List<CartItem> cartItems = new ArrayList<>();
     private Label totalValue = null;
     private VBox cartContainer;
 
@@ -119,16 +120,16 @@ public class PosServiceImpl implements PosService {
     }
 
     public void addToCart(ProductDTO product,VBox cartContainer) {
-        Optional<CartItemDTO> existingItem = cartItems.stream()
+        Optional<CartItem> existingItem = cartItems.stream()
                 .filter(item -> item.getProduct().getProductId().equals(product.getProductId()))
                 .findFirst();
 
         if (existingItem.isPresent()){
-            CartItemDTO item = existingItem.get();
+            CartItem item = existingItem.get();
             item.setQuantity(item.getQuantity()+1);
             item.calculateTotal();
         }else{
-            cartItems.add(new CartItemDTO(product,1));
+            cartItems.add(new CartItem(product,1));
         }
         updateCartUi(cartContainer);
     }
@@ -137,7 +138,7 @@ public class PosServiceImpl implements PosService {
         cartContainer.getChildren().clear();
         BigDecimal netTotal = BigDecimal.ZERO;
 
-        for (CartItemDTO item : cartItems) {
+        for (CartItem item : cartItems) {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/cart_row.fxml"));
                 HBox row = loader.load();
@@ -164,6 +165,42 @@ public class PosServiceImpl implements PosService {
             }
         }
         totalValue.setText(netTotal.toPlainString());
+    }
+    private Product getProduct(ProductDTO productDTO){
+        for (Product product : posRepository.getAllItems()) {
+            if (productDTO.getProductId().equals(product.getProductId())){
+                return product;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public boolean SaveOrder() {
+        Order newOrder = new Order();
+        newOrder.setDate(LocalDateTime.now());
+        newOrder.setTotalAmount(totalValue.getText());
+        newOrder.setPaymentMethod("Cash");
+        if (posRepository.saveOrder(newOrder)){
+            for (CartItem item : cartItems){
+                OrderDetail orderDetail = new OrderDetail();
+                orderDetail.setOrder(newOrder);
+                orderDetail.setProduct(getProduct(item.getProduct()));
+                orderDetail.setQty(item.getQuantity());
+                orderDetail.setUnitPrice(item.getProduct().getPrice());
+                orderDetail.setSubTotal(item.getTotal());
+                if (posRepository.saveDetails(orderDetail)){
+                    Product product = getProduct(item.getProduct());
+                    if (product!=null) {
+                        product.setStockQuantity(product.getStockQuantity() - item.getQuantity());
+                        posRepository.updateSession(product);
+                    }
+                }
+            }
+            posRepository.saveTransaction();
+            return true;
+        }
+        return false;
     }
 
 }

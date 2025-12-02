@@ -1,28 +1,15 @@
 package edu.icet.clothify.controller;
 
-import edu.icet.clothify.model.dto.CartItemDTO;
-import edu.icet.clothify.model.dto.ProductDTO;
-import edu.icet.clothify.model.entity.Product;
 import edu.icet.clothify.service.PosService;
 import edu.icet.clothify.service.impl.PosServiceImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-import java.io.IOException;
-import java.math.BigDecimal;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class PosController implements Initializable {
@@ -87,6 +74,10 @@ public class PosController implements Initializable {
 
     @FXML
     void btnPlaceOrderOnAction(ActionEvent event) {
+        if (posService.SaveOrder()){
+            new Alert(Alert.AlertType.CONFIRMATION, "Order placed!").show();
+        }
+        posService.clearCart();
     }
 
     @FXML
@@ -96,7 +87,7 @@ public class PosController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        posService.loadProductsToGrid(productGrid,cartContainer,lblTotal);
+        posService.loadProductsToGrid(productGrid,cartContainer,lblSubtotal);
     }
 
     public void btnClearAllOnAction(ActionEvent actionEvent) {

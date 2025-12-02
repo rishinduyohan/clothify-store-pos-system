@@ -1,6 +1,6 @@
-package edu.icet.clothify.model.dto;
+package edu.icet.clothify.model.entity;
 
-import edu.icet.clothify.model.entity.Product;
+import edu.icet.clothify.model.dto.ProductDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,12 +8,12 @@ import java.math.BigDecimal;
 
 @Getter
 @Setter
-public class CartItemDTO {
+public class CartItem {
     private ProductDTO product;
     private Integer quantity;
     private BigDecimal total;
 
-    public CartItemDTO(ProductDTO product,Integer quantity){
+    public CartItem(ProductDTO product, Integer quantity){
         this.product = product;
         this.quantity = quantity;
         calculateTotal();
