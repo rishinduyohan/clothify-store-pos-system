@@ -18,6 +18,6 @@ public class ProductDTO {
     private String imagePath;
     private BigDecimal price;
     private Integer stockQuantity;
-    private Category category;
-    private Supplier supplier;
+    private String category;
+    private String supplier;
 }

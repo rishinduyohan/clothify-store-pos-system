@@ -44,8 +44,8 @@ public class PosServiceImpl implements PosService {
                         product.getImagePath(),
                         product.getPrice(),
                         product.getStockQuantity(),
-                        product.getCategory(),
-                        product.getSupplier()
+                        product.getCategory().getName(),
+                        product.getSupplier().getCompanyName()
                 ));
             }
         }
@@ -91,7 +91,7 @@ public class PosServiceImpl implements PosService {
                         priceLabel.setText("LKR " + product.getPrice().toPlainString());
 
                         if (product.getCategory() != null) {
-                            categoryLabel.setText(product.getCategory().getName());
+                            categoryLabel.setText(product.getCategory());
                         }
                     }
                     productGrid.add(productCard, column, row);
