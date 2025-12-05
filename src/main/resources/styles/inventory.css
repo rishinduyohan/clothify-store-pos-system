@@ -22,7 +22,6 @@
     -fx-border-radius: 12;
 }
 
-/* --- Headers & Text --- */
 .header-title {
     -fx-font-size: 24px;
     -fx-font-weight: 700;
@@ -40,7 +39,6 @@
     -fx-text-fill: #2d3447;
 }
 
-/* --- Stats Cards (Top) --- */
 .stat-card {
     -fx-background-radius: 8;
     -fx-padding: 10 15;
@@ -64,7 +62,6 @@
     -fx-font-weight: 800;
 }
 
-/* --- Inputs (TextFields & ComboBoxes) --- */
 .text-field, .combo-box {
     -fx-background-color: white;
     -fx-background-radius: 8;
@@ -80,7 +77,6 @@
     -fx-background-color: white;
 }
 
-/* --- Buttons --- */
 .btn {
     -fx-background-radius: 8;
     -fx-cursor: hand;
@@ -114,7 +110,6 @@
     -fx-background-color: #FECACA;
 }
 
-/* --- Filter Sidebar Buttons --- */
 .filter-btn {
     -fx-background-color: transparent;
     -fx-alignment: BASELINE_LEFT;
