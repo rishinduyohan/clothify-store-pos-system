@@ -10,4 +10,7 @@ public interface InventoryRepository {
     List<Category> getCategories();
     List<Supplier> getSuppliers();
     List<Product> getAllProducts();
+    boolean addProduct(Product product);
+    Category getCategory(String name);
+    Supplier getSupplier(String company);
 }

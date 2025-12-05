@@ -65,4 +65,24 @@ public class InventoryServiceImpl implements InventoryService {
         }
         return list;
     }
+
+    public Category getCategoryFromName(String name){
+        return inventoryRepository.getCategory(name);
+    }
+    public Supplier getSupplierFromName(String company){
+        return inventoryRepository.getSupplier(company);
+    }
+
+    @Override
+    public boolean addProduct(ProductDTO productDTO) {
+        Product product = new Product();
+        product.setName(productDTO.getName());
+        product.setDescription(productDTO.getDescription());
+        product.setImagePath(productDTO.getImagePath());
+        product.setPrice(productDTO.getPrice());
+        product.setStockQuantity(productDTO.getStockQuantity());
+        product.setCategory(getCategoryFromName(productDTO.getCategory()));
+        product.setSupplier(getSupplierFromName(productDTO.getSupplier()));
+        return inventoryRepository.addProduct(product);
+    }
 }

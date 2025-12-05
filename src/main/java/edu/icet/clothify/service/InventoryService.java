@@ -8,4 +8,5 @@ public interface InventoryService {
     ObservableList<String> getSupplierNames();
     ObservableList<String> getSizes();
     ObservableList<ProductDTO> getAllProducts();
+    boolean addProduct(ProductDTO productDTO);
 }
