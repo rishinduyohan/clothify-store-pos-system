@@ -93,11 +93,11 @@
                         <VBox spacing="8.0">
                             <children>
                                 <Label style="-fx-font-size: 11px; -fx-font-weight: bold;" text="Category" textFill="#888" />
-                                <Button alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnAllCategories" style="-fx-background-color: #eef2fa; -fx-text-fill: #4b7bec; -fx-background-radius: 5; -fx-font-weight: bold;" text="All Categories" />
-                                <Button alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnMenWear" style="-fx-background-color: transparent; -fx-text-fill: #555; -fx-cursor: hand;" text="Men's Wear" />
-                                <Button alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnWomentsWear" style="-fx-background-color: transparent; -fx-text-fill: #555; -fx-cursor: hand;" text="Women's Wear" />
-                                <Button alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnKids" style="-fx-background-color: transparent; -fx-text-fill: #555; -fx-cursor: hand;" text="Kids" />
-                                <Button alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnAccessories" style="-fx-background-color: transparent; -fx-text-fill: #555; -fx-cursor: hand;" text="Accessories" />
+                                <Button fx:id="btnAllCategories" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: #eef2fa; -fx-text-fill: #4b7bec; -fx-background-radius: 5; -fx-font-weight: bold;" text="All Categories" />
+                                <Button fx:id="btnMenWear" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-text-fill: #555; -fx-cursor: hand;" text="Men's Wear" />
+                                <Button fx:id="btnWomentsWear" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-text-fill: #555; -fx-cursor: hand;" text="Women's Wear" />
+                                <Button fx:id="btnKids" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-text-fill: #555; -fx-cursor: hand;" text="Kids" />
+                                <Button fx:id="btnAccessories" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-text-fill: #555; -fx-cursor: hand;" text="Accessories" />
                             </children>
                         </VBox>
 
@@ -211,11 +211,11 @@
                                     <children>
                                         <VBox spacing="5.0" HBox.hgrow="ALWAYS">
                                             <Label text="Category" textFill="#555555" />
-                                            <ComboBox fx:id="cmbCategory" maxWidth="1.7976931348623157E308" opacity="0.54" promptText="Select a category" style="-fx-background-color: white; -fx-border-color: #ddd; -fx-border-radius: 5;" />
+                                            <ComboBox fx:id="cmbCategory" maxWidth="1.7976931348623157E308" promptText="Select a category" style="-fx-background-color: white; -fx-border-color: #ddd; -fx-border-radius: 5;" />
                                         </VBox>
                                         <VBox spacing="5.0" HBox.hgrow="ALWAYS">
                                             <Label text="Size" textFill="#555555" />
-                                            <ComboBox fx:id="cmbSize" maxWidth="1.7976931348623157E308" opacity="0.54" promptText="Select size" style="-fx-background-color: white; -fx-border-color: #ddd; -fx-border-radius: 5;" />
+                                            <ComboBox fx:id="cmbSize" maxWidth="1.7976931348623157E308" promptText="Select size" style="-fx-background-color: white; -fx-border-color: #ddd; -fx-border-radius: 5;" />
                                         </VBox>
                                     </children>
                                 </HBox>
@@ -235,7 +235,7 @@
 
                                 <VBox spacing="5.0">
                                     <Label text="Supplier" textFill="#555555" />
-                                    <ComboBox fx:id="cmbSupplier" maxWidth="1.7976931348623157E308" opacity="0.54" promptText="Select supplier" style="-fx-background-color: white; -fx-border-color: #ddd; -fx-border-radius: 5;" />
+                                    <ComboBox fx:id="cmbSupplier" maxWidth="1.7976931348623157E308" promptText="Select supplier" style="-fx-background-color: white; -fx-border-color: #ddd; -fx-border-radius: 5;" />
                                 </VBox>
 
                                 <!-- Action Buttons -->
