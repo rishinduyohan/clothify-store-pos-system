@@ -13,5 +13,8 @@
         <mapping class="edu.icet.clothify.model.entity.Supplier"/>
         <mapping class="edu.icet.clothify.model.entity.Order"/>
         <mapping class="edu.icet.clothify.model.entity.OrderDetail"/>
+        <mapping class="edu.icet.clothify.model.entity.Employee"/>
+        <mapping class="edu.icet.clothify.model.entity.Category"/>
+
     </session-factory>
 </hibernate-configuration>
