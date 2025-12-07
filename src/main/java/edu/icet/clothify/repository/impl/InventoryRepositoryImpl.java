@@ -7,7 +7,6 @@ import edu.icet.clothify.model.entity.Supplier;
 import edu.icet.clothify.repository.InventoryRepository;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-
 import java.util.List;
 
 public class InventoryRepositoryImpl implements InventoryRepository {
@@ -37,6 +36,22 @@ public class InventoryRepositoryImpl implements InventoryRepository {
     }
 
     @Override
+    public boolean updateProduct(Product product) {
+        Transaction transaction = session.beginTransaction();
+        session.merge(product);
+        transaction.commit();
+        return true;
+    }
+
+    @Override
+    public boolean removeProduct(Product product) {
+        Transaction transaction = session.beginTransaction();
+        session.remove(product);
+        transaction.commit();
+        return true;
+    }
+
+    @Override
     public Category getCategory(String name) {
         return session.createQuery("From Category where name = '"+name+"'",Category.class).uniqueResult();
     }
@@ -45,4 +60,5 @@ public class InventoryRepositoryImpl implements InventoryRepository {
     public Supplier getSupplier(String company) {
         return session.createQuery("From Supplier where companyName = '"+company+"'",Supplier.class).uniqueResult();
     }
+
 }

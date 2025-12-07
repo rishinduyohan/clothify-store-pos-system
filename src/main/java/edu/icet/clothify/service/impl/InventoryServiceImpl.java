@@ -85,4 +85,32 @@ public class InventoryServiceImpl implements InventoryService {
         product.setSupplier(getSupplierFromName(productDTO.getSupplier()));
         return inventoryRepository.addProduct(product);
     }
+
+    @Override
+    public boolean updateProduct(Long id,ProductDTO productDTO) {
+        Product product = new Product();
+        product.setProductId(id);
+        product.setName(productDTO.getName());
+        product.setDescription(productDTO.getDescription());
+        product.setImagePath(productDTO.getImagePath());
+        product.setPrice(productDTO.getPrice());
+        product.setStockQuantity(productDTO.getStockQuantity());
+        product.setCategory(getCategoryFromName(productDTO.getCategory()));
+        product.setSupplier(getSupplierFromName(productDTO.getSupplier()));
+        return inventoryRepository.updateProduct(product);
+    }
+
+    @Override
+    public boolean removeProduct(Long id, ProductDTO productDTO) {
+        Product product = new Product();
+        product.setProductId(id);
+        product.setName(productDTO.getName());
+        product.setDescription(productDTO.getDescription());
+        product.setImagePath(productDTO.getImagePath());
+        product.setPrice(productDTO.getPrice());
+        product.setStockQuantity(productDTO.getStockQuantity());
+        product.setCategory(getCategoryFromName(productDTO.getCategory()));
+        product.setSupplier(getSupplierFromName(productDTO.getSupplier()));
+        return inventoryRepository.removeProduct(product);
+    }
 }

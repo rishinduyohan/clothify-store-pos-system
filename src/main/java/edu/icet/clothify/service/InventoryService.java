@@ -9,4 +9,6 @@ public interface InventoryService {
     ObservableList<String> getSizes();
     ObservableList<ProductDTO> getAllProducts();
     boolean addProduct(ProductDTO productDTO);
+    boolean updateProduct(Long id,ProductDTO productDTO);
+    boolean removeProduct(Long id,ProductDTO productDTO);
 }

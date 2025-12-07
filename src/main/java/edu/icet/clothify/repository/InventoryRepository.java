@@ -11,6 +11,8 @@ public interface InventoryRepository {
     List<Supplier> getSuppliers();
     List<Product> getAllProducts();
     boolean addProduct(Product product);
+    boolean updateProduct(Product product);
+    boolean removeProduct(Product product);
     Category getCategory(String name);
     Supplier getSupplier(String company);
 }
