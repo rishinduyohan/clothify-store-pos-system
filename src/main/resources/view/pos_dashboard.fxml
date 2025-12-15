@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #F4F6F8; -fx-font-family: 'Segoe UI';" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.icet.clothify.controller.PosController">
+    <children>
+        <!-- Main Layout Container -->
+        <HBox layoutX="20.0" layoutY="20.0" spacing="20.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+            <children>
+
+                <!-- SECTION 1: PRODUCT CATALOG (Left Side - Grows to fill space) -->
+                <VBox spacing="20.0" HBox.hgrow="ALWAYS">
+                    <children>
+                        <!-- Header & Search -->
+                        <HBox alignment="CENTER_LEFT" spacing="20.0">
+                            <children>
+                                <VBox alignment="CENTER_LEFT">
+                                    <children>
+                                        <Label text="Product Catalog" textFill="#2d3447">
+                                            <font>
+                                                <Font name="System Bold" size="24.0" />
+                                            </font>
+                                        </Label>
+                                        <Label text="Tuesday, 26 Nov 2025" textFill="#888888">
+                                            <font>
+                                                <Font size="14.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                </VBox>
+                                <Region HBox.hgrow="ALWAYS" />
+                                <TextField fx:id="searchField" onAction="#txtSearchOnAction" prefHeight="45.0" prefWidth="320.0" promptText="Search products by name or barcode..." style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #E1E1E1; -fx-border-radius: 10; -fx-padding: 0 15 0 15; -fx-font-size: 14;" />
+                            </children>
+                        </HBox>
+
+                        <!-- Category Filters -->
+                        <HBox prefHeight="56.0" prefWidth="892.0" spacing="10.0">
+                            <children>
+                                <Button fx:id="btnCatAll" mnemonicParsing="false" prefHeight="40.0" style="-fx-background-color: #4B7BEC; -fx-text-fill: white; -fx-background-radius: 10; -fx-font-weight: bold; -fx-cursor: hand; -fx-padding: 0 20;" text="All Items" />
+                                <Button fx:id="btnCatMen" mnemonicParsing="false" prefHeight="40.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-text-fill: #666; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 5, 0, 0, 2); -fx-cursor: hand; -fx-padding: 0 20;" text="Men" />
+                                <Button fx:id="btnCatWomen" mnemonicParsing="false" prefHeight="40.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-text-fill: #666; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 5, 0, 0, 2); -fx-cursor: hand; -fx-padding: 0 20;" text="Women" />
+                                <Button fx:id="btnCatShoes" mnemonicParsing="false" prefHeight="40.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-text-fill: #666; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 5, 0, 0, 2); -fx-cursor: hand; -fx-padding: 0 20;" text="Shoes" />
+                                <Button fx:id="btnCatAcc" mnemonicParsing="false" prefHeight="40.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-text-fill: #666; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 5, 0, 0, 2); -fx-cursor: hand; -fx-padding: 0 20;" text="Accessories" />
+                            </children>
+                        </HBox>
+
+                        <!-- Product Grid Scroll Area -->
+                        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: transparent; -fx-background: transparent;" VBox.vgrow="ALWAYS">
+                            <content>
+                                <GridPane fx:id="productGrid" hgap="20.0" vgap="20.0">
+                                    <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="33.33" />
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="33.33" />
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="33.33" />
+                                    </columnConstraints>
+                                    <rowConstraints>
+                                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                    </rowConstraints>
+                                    <padding>
+                                        <Insets bottom="10.0" right="10.0" top="10.0" />
+                                    </padding>
+                                    <children>
+                                        <!-- ITEM 1 -->
+                                        <VBox alignment="CENTER" style="-fx-background-color: white; -fx-background-radius: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5); -fx-cursor: hand;" GridPane.columnIndex="0">
+                                            <children>
+                                                <ImageView fitHeight="169.0" fitWidth="278.0" pickOnBounds="true" preserveRatio="true">
+                                                    <image>
+                                                        <Image url="https://placehold.co/250x180/4b7bec/FFFFFF?text=Slim+Fit+Jeans" />
+                                                    </image>
+                                                    <VBox.margin>
+                                                        <Insets bottom="15.0" top="15.0" />
+                                                    </VBox.margin>
+                                                </ImageView>
+                                                <VBox spacing="5.0">
+                                                    <padding>
+                                                        <Insets bottom="20.0" left="20.0" right="20.0" top="5.0" />
+                                                    </padding>
+                                                    <children>
+                                                        <Label style="-fx-font-weight: bold; -fx-font-size: 16;" text="Slim Fit Jeans" textFill="#2d3447" />
+                                                        <Label text="Men's Bottoms" textFill="#a2a6b6">
+                                                            <font>
+                                                                <Font size="12.0" />
+                                                            </font>
+                                                        </Label>
+                                                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                                            <children>
+                                                                <Label style="-fx-font-weight: bold; -fx-font-size: 18;" text="\$45.00" textFill="#4b7bec" />
+                                                                <Region HBox.hgrow="ALWAYS" />
+                                                                <Button fx:id="btnAddToCart" prefHeight="8.0" prefWidth="82.0" style="-fx-background-color: #eef2fa; -fx-text-fill: #4b7bec; -fx-background-radius: 8; -fx-font-weight: bold; -fx-cursor: hand;" text="Add to Cart" />
+                                                            </children>
+                                                        </HBox>
+                                                    </children>
+                                                </VBox>
+                                            </children>
+                                        </VBox>
+
+                                    </children>
+                                </GridPane>
+                            </content>
+                        </ScrollPane>
+                    </children>
+                </VBox>
+
+                <!-- SECTION 2: CART & PAYMENT (Right Side - Fixed Width) -->
+                <VBox prefHeight="760.0" prefWidth="327.0" style="-fx-background-color: white; -fx-background-radius: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);">
+                    <children>
+                        <!-- Cart Header -->
+                        <HBox alignment="CENTER_LEFT" prefHeight="80.0" spacing="15.0" style="-fx-border-color: #EEEEEE; -fx-border-width: 0 0 1 0;">
+                            <padding>
+                                <Insets left="25.0" right="25.0" />
+                            </padding>
+                            <children>
+                                <Label text="Current Order">
+                                    <font>
+                                        <Font name="System Bold" size="20.0" />
+                                    </font>
+                                </Label>
+                                <Region HBox.hgrow="ALWAYS" />
+                                <Button fx:id="btnClearAll" mnemonicParsing="false" onAction="#btnClearAllOnAction" style="-fx-background-color: #FFF0F1; -fx-text-fill: #ff4757; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-weight: bold; -fx-padding: 8 15;" text="Clear All" />
+                            </children>
+                        </HBox>
+
+                        <!-- Order Info -->
+                        <Pane prefHeight="50.0" style="-fx-background-color: #FAFAFA;">
+                            <children>
+                                <Label layoutX="25.0" layoutY="15.0" text="Transaction ID: #88452" textFill="#666666">
+                                    <font>
+                                        <Font name="Monospaced Bold" size="14.0" />
+                                    </font>
+                                </Label>
+                                <Label layoutX="256.0" layoutY="15.0" text="John Doe" textFill="#888888">
+                                    <font>
+                                        <Font size="12.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                        </Pane>
+                  <VBox fx:id="cartContainer" alignment="TOP_CENTER" prefHeight="330.0" prefWidth="327.0" style="-fx-background-color: white; -fx-background-radius: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5); -fx-cursor: hand;">
+                     <children>
+                        <ScrollPane prefHeight="338.0" prefWidth="327.0" />
+                     </children>
+                  </VBox>
+
+                        <!-- Totals Section -->
+                        <VBox spacing="15.0" style="-fx-background-color: #FAFAFA; -fx-background-radius: 0 0 15 15; -fx-border-color: #EEEEEE; -fx-border-width: 1 0 0 0;">
+                            <padding>
+                                <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                            </padding>
+                            <children>
+                                <HBox>
+                                    <children>
+                                        <Label text="Subtotal" textFill="#888888" />
+                                        <Region HBox.hgrow="ALWAYS" />
+                                        <Label fx:id="lblSubtotal" text="\$200.50" textFill="#333333">
+                                            <font>
+                                                <Font name="System Bold" size="14.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                </HBox>
+                                <HBox>
+                                    <children>
+                                        <Label text="Tax (5%)" textFill="#888888" />
+                                        <Region HBox.hgrow="ALWAYS" />
+                                        <Label fx:id="lblTax" text="\$10.00" textFill="#333333">
+                                            <font>
+                                                <Font name="System Bold" size="14.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                </HBox>
+                                <HBox>
+                                    <children>
+                                        <Label text="Discount" textFill="#888888" />
+                                        <Region HBox.hgrow="ALWAYS" />
+                                        <Label fx:id="lblDiscount" text="-\$5.00" textFill="#2ed573">
+                                            <font>
+                                                <Font name="System Bold" size="14.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                </HBox>
+
+                                <Pane prefHeight="1.0" style="-fx-background-color: #E0E0E0;" />
+
+                                <HBox alignment="CENTER_LEFT">
+                                    <children>
+                                        <Label text="Total Amount" textFill="#2d3447">
+                                            <font>
+                                                <Font name="System Bold" size="18.0" />
+                                            </font>
+                                        </Label>
+                                        <Region HBox.hgrow="ALWAYS" />
+                                        <Label fx:id="lblTotal" text="\$205.50" textFill="#4b7bec">
+                                            <font>
+                                                <Font name="System Bold" size="26.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                </HBox>
+
+                                <!-- Payment Buttons -->
+                                <HBox spacing="10.0">
+                                    <children>
+                                        <Button fx:id="btnPlaceOrder" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnPlaceOrderOnAction" prefHeight="55.0" prefWidth="216.0" style="-fx-background-color: #4B7BEC; -fx-background-radius: 10; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand; -fx-font-size: 16;" text="Place Order" HBox.hgrow="ALWAYS" />
+                                    </children>
+                                </HBox>
+
+                            </children>
+                        </VBox>
+                    </children>
+                </VBox>
+
+            </children>
+        </HBox>
+    </children>
+</AnchorPane>
