@@ -21,12 +21,16 @@ public class Supplier {
     @Column(name = "company_name")
     private String companyName;
 
+    @Column(name = "contact_person")
+    private String contactPerson;
+
     @Column(name = "contact_number")
     private String contactNumber;
+
+    @Column(name = "item_category")
+    private String itemCategory;
 
     @Column(name = "email")
     private String email;
 
-    @Column(name = "address")
-    private String address;
 }
