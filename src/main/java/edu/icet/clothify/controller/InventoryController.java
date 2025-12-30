@@ -126,20 +126,17 @@ public class InventoryController implements Initializable {
 
             } catch (NumberFormatException e) {
                 new Alert(Alert.AlertType.ERROR, "Invalid Price! Please enter a number.").show();
-                clearText();
             }
         }
         productDTO.setSupplier(cmbSupplier.getValue());
         return productDTO;
     }
 
-    private void clearText() {
-    }
-
     @FXML
     void btnAddOnAction(ActionEvent event) {
         if(inventoryService.addProduct(getCurrentProduct())){
             new Alert(Alert.AlertType.CONFIRMATION,"Product added Successfully!").show();
+            btnClearOnAction(event);
         }
         loadTable();
     }
@@ -173,17 +170,18 @@ public class InventoryController implements Initializable {
     @FXML
     void btnClearOnAction(ActionEvent event) {
         txtName.setText("");
-        txtPrice.setText("0.00");
-        txtQty.setText("0");
-        cmbCategory.setValue("Select category");
-        cmbSize.setValue("Select size");
-        cmbSupplier.setValue("Select supplier");
+        txtPrice.setText("");
+        txtQty.setText("");
+        cmbCategory.setValue("");
+        cmbSize.setValue("");
+        cmbSupplier.setValue("");
     }
 
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
         if(inventoryService.removeProduct(productDTO.getProductId(),getCurrentProduct())){
             new Alert(Alert.AlertType.CONFIRMATION,"Product removed Successfully!").show();
+            btnClearOnAction(event);
         }
         loadTable();
     }
@@ -192,6 +190,7 @@ public class InventoryController implements Initializable {
     void btnUpdateOnAction(ActionEvent event) {
         if(inventoryService.updateProduct(productDTO.getProductId(),getCurrentProduct())){
             new Alert(Alert.AlertType.CONFIRMATION,"Product updated Successfully!").show();
+            btnClearOnAction(event);
         }
         loadTable();
     }

@@ -107,6 +107,7 @@ public class EmployeeController implements Initializable {
     void btnDeleteOnAction(ActionEvent event) {
         if (employeeService.deleteEmployee(getCurrentCustomer())){
             new Alert(Alert.AlertType.CONFIRMATION,"Employee Deleted!").show();
+            btnClearOnAction(event);
         }
         loadTable();
     }
@@ -115,6 +116,7 @@ public class EmployeeController implements Initializable {
     void btnSaveOnAction(ActionEvent event) {
         if (employeeService.addEmployee(getCurrentCustomer())){
             new Alert(Alert.AlertType.CONFIRMATION,"New Employee added!").show();
+            btnClearOnAction(event);
         }
         loadTable();
     }
@@ -123,6 +125,7 @@ public class EmployeeController implements Initializable {
     void btnUpdateOnAction(ActionEvent event) {
         if (employeeService.updateEmployee(getCurrentCustomer())){
             new Alert(Alert.AlertType.CONFIRMATION,"Employee details updated!").show();
+            btnClearOnAction(event);
         }
         loadTable();
     }
