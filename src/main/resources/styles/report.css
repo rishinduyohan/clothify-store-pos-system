@@ -1,0 +1,90 @@
+.root {
+    -fx-background-color: #F4F6F8;
+    -fx-font-family: 'Segoe UI', sans-serif;
+}
+
+.header-panel {
+    -fx-background-color: white;
+    -fx-padding: 20 30;
+    -fx-border-color: #E2E8F0;
+    -fx-border-width: 0 0 1 0;
+}
+
+.header-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: 800;
+    -fx-text-fill: #1E293B;
+}
+
+.header-subtitle {
+    -fx-font-size: 14px;
+    -fx-text-fill: #64748B;
+}
+
+.report-card {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 4);
+    -fx-padding: 30;
+    -fx-alignment: CENTER;
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+    -fx-border-width: 2;
+    -fx-border-radius: 12;
+}
+
+.report-card:hover {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 15, 0, 0, 8);
+    -fx-translate-y: -2;
+    -fx-border-color: #4B7BEC; /* Highlight border on hover */
+}
+
+
+.card-icon-container {
+    -fx-background-radius: 50; /* Circle */
+    -fx-padding: 15;
+    -fx-alignment: CENTER;
+    -fx-min-width: 60;
+    -fx-min-height: 60;
+}
+
+
+.icon-bg-blue   { -fx-background-color: #E0F2FE; }
+.icon-bg-green  { -fx-background-color: #DCFCE7; }
+.icon-bg-orange { -fx-background-color: #FFEDD5; }
+.icon-bg-purple { -fx-background-color: #F3E8FF; }
+
+.card-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #334155;
+}
+
+.card-description {
+    -fx-font-size: 13px;
+    -fx-text-fill: #94A3B8;
+    -fx-text-alignment: CENTER;
+    -fx-wrap-text: true;
+}
+
+
+.btn-generate {
+    -fx-background-color: white;
+    -fx-text-fill: #4B7BEC;
+    -fx-border-color: #4B7BEC;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-font-weight: 700;
+    -fx-cursor: hand;
+    -fx-padding: 8 20;
+}
+
+.btn-generate:hover {
+    -fx-background-color: #4B7BEC;
+    -fx-text-fill: white;
+}
+
+.report-card:hover .btn-generate {
+    -fx-background-color: #4B7BEC;
+    -fx-text-fill: white;
+}
