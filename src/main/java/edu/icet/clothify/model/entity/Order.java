@@ -22,7 +22,7 @@ public class Order {
     private LocalDateTime date;
 
     @Column(name = "total_amount")
-    private String totalAmount;
+    private double totalAmount;
 
     @Column(name = "payment_method")
     private String paymentMethod;

@@ -179,7 +179,7 @@ public class PosServiceImpl implements PosService {
     public boolean SaveOrder() {
         Order newOrder = new Order();
         newOrder.setDate(LocalDateTime.now());
-        newOrder.setTotalAmount(totalValue.getText());
+        newOrder.setTotalAmount(Double.parseDouble(totalValue.getText()));
         newOrder.setPaymentMethod("Cash");
         if (posRepository.saveOrder(newOrder)){
             for (CartItem item : cartItems){
