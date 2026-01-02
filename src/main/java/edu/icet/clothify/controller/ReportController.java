@@ -50,7 +50,13 @@ public class ReportController {
 
     @FXML
     void btnMonthlyReportOnAction(ActionEvent event) {
-
+        try {
+            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/monthly_revenue.fxml"))));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        stage.setTitle("Monthly reports");
+        stage.show();
     }
 
     @FXML

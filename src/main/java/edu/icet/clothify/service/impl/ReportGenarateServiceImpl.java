@@ -17,11 +17,10 @@ import java.util.Map;
 
 public class ReportGenarateServiceImpl implements ReportGenarateService {
     ReportGenarateRepository reportGenarateRepository = new ReportGenarateRepositoryImpl();
-    Session session = null;
+    Session session = reportGenarateRepository.getSalesConnection();
 
     @Override
     public boolean dailySalesReport(String date) {
-        session = reportGenarateRepository.getDailySalesConnection();
         if (null != session) {
             session.doReturningWork(connection -> {
                 try {
@@ -40,6 +39,29 @@ public class ReportGenarateServiceImpl implements ReportGenarateService {
             });
         } else {
             dailySalesReport(date);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean monthlySalesReport(int month, int year) {
+        if (null != session){
+            session.doReturningWork(connection -> {
+               try{
+                   Map<String,Object> parameters = new HashMap<>();
+                   parameters.put("year_month",year+"-"+month);
+
+                   InputStream reportStream = getClass().getResourceAsStream("/reports/monthly_revenue_summary.jrxml");
+                   JasperReport jasperReport = JasperCompileManager.compileReport(reportStream);
+                   JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport,parameters,connection);
+                   JasperViewer.viewReport(jasperPrint,false);
+               } catch (Exception e) {
+                   new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+               }
+               return true;
+            });
+        }else {
+            monthlySalesReport(month,year);
         }
         return false;
     }

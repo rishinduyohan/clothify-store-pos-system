@@ -4,5 +4,5 @@ import org.hibernate.Session;
 
 
 public interface ReportGenarateRepository {
-    Session getDailySalesConnection();
+    Session getSalesConnection();
 }

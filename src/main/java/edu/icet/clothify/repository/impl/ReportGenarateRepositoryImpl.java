@@ -8,7 +8,7 @@ public class ReportGenarateRepositoryImpl implements ReportGenarateRepository {
     Session session = HibernateUtil.getSessionFactory().openSession();
 
     @Override
-    public Session getDailySalesConnection() {
+    public Session getSalesConnection() {
         return session;
     }
 }
