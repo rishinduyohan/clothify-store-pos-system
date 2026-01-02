@@ -3,6 +3,7 @@ package edu.icet.clothify.service.impl;
 import edu.icet.clothify.repository.ReportGenarateRepository;
 import edu.icet.clothify.repository.impl.ReportGenarateRepositoryImpl;
 import edu.icet.clothify.service.ReportGenarateService;
+import javafx.scene.control.Alert;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -32,10 +33,10 @@ public class ReportGenarateServiceImpl implements ReportGenarateService {
                     JasperReport jasperReport = JasperCompileManager.compileReport(reportStream);
                     JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, connection);
                     JasperViewer.viewReport(jasperPrint, false);
-                    return true;
                 } catch (Exception e) {
-                    throw new RuntimeException(e);
+                    new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
                 }
+                return true;
             });
         } else {
             dailySalesReport(date);
