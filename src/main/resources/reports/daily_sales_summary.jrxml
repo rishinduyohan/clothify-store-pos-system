@@ -46,11 +46,11 @@
 	<title>
 		<band height="110" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="120" height="30" forecolor="#0056B3" uuid="66136d81-8096-485e-8515-5386049a0f5a"/>
+				<reportElement x="0" y="0" width="200" height="30" forecolor="#0056B3" uuid="66136d81-8096-485e-8515-5386049a0f5a"/>
 				<textElement>
 					<font size="22" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Clothify]]></text>
+				<text><![CDATA[Clothify Store]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="40" width="555" height="35" forecolor="#333333" uuid="e4141d6b-0968-4682-9642-892418578491"/>
