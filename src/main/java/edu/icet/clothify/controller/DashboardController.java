@@ -156,6 +156,10 @@ public class DashboardController implements Initializable {
     }
 
     @FXML
+    void btnViewAllOrdersOnAction(ActionEvent event) {
+    }
+
+    @FXML
     void btnDashboardOnAction(ActionEvent event) {
         try {
             stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/dashboard.fxml"))));
