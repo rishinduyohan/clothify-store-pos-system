@@ -23,8 +23,8 @@ import java.util.ResourceBundle;
 
 public class DashboardController implements Initializable {
     Stage stage = new Stage();
-    private final String ACTIVE_STYLE = "-fx-background-color: #4B7BEC; -fx-background-radius: 0 30 30 0; -fx-cursor: hand;-fx-text-fill:white;";
-    private final String INACTIVE_STYLE = "-fx-background-color: transparent; -fx-cursor: hand;";
+    private static final String ACTIVE_STYLE = "-fx-background-color: #4B7BEC; -fx-background-radius: 0 30 30 0; -fx-cursor: hand;-fx-text-fill:white;";
+    private static final String INACTIVE_STYLE = "-fx-background-color: transparent; -fx-cursor: hand;";
 
     @FXML
     private AnchorPane mainContent;
@@ -33,7 +33,7 @@ public class DashboardController implements Initializable {
     private AnchorPane middleContent;
 
     @FXML
-    private Button btnCustomers;
+    private Button btnSupplier;
 
     @FXML
     private Button btnDashboard;
@@ -150,8 +150,9 @@ public class DashboardController implements Initializable {
     private VBox vboxTrending;
 
     @FXML
-    void btnCustomersOnAction(ActionEvent event) {
-
+    void btnSupplierOnAction(ActionEvent event) {
+        updateActiveButton(btnSupplier);
+        setUi("/view/Supplier.fxml");
     }
 
     @FXML
@@ -161,7 +162,7 @@ public class DashboardController implements Initializable {
             Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             currentStage.close();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
         }
         stage.setTitle("Dashboard");
         stage.show();
@@ -169,12 +170,14 @@ public class DashboardController implements Initializable {
 
     @FXML
     void btnEmployeeOnAction(ActionEvent event) {
-
+        updateActiveButton(btnEmployee);
+        setUi("/view/employee.fxml");
     }
 
     @FXML
     void btnInventoryOnAction(ActionEvent event) {
-
+        updateActiveButton(btnInventory);
+        setUi("/view/inventory_mgt.fxml");
     }
 
     @FXML
@@ -185,14 +188,9 @@ public class DashboardController implements Initializable {
 
     @FXML
     void btnReportsOnAction(ActionEvent event) {
-
+        updateActiveButton(btnReports);
+        setUi("/view/report_genarate.fxml");
     }
-
-    @FXML
-    void btnViewAllOrdersOnAction(ActionEvent event) {
-
-    }
-
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -211,7 +209,7 @@ public class DashboardController implements Initializable {
     }
 
     private void updateActiveButton(Button clickedButton) {
-        List<Button> allButtons = Arrays.asList(btnDashboard, btnPos, btnEmployee, btnInventory, btnCustomers,btnReports);
+        List<Button> allButtons = Arrays.asList(btnDashboard, btnPos, btnEmployee, btnInventory, btnSupplier,btnReports);
 
         for (Button btn : allButtons) {
             if (btn == clickedButton) {
@@ -235,7 +233,7 @@ public class DashboardController implements Initializable {
             AnchorPane.setBottomAnchor(loadedUi, 0.0);
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
         }
     }
 }

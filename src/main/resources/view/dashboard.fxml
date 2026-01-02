@@ -81,7 +81,7 @@
                                         <Font size="14.0" />
                                     </font>
                                 </Button>
-                                <Button fx:id="btnCustomers" alignment="BASELINE_LEFT" graphicTextGap="15.0" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" onAction="#btnCustomersOnAction" prefHeight="50.0" prefWidth="240.0" style="-fx-background-color: transparent; -fx-cursor: hand;" text="Customers" textFill="#a2a6b6">
+                                <Button fx:id="btnSupplier" alignment="BASELINE_LEFT" graphicTextGap="15.0" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" onAction="#btnSupplierOnAction" prefHeight="50.0" prefWidth="240.0" style="-fx-background-color: transparent; -fx-cursor: hand;" text="Suppliers" textFill="#a2a6b6">
                                     <padding>
                                         <Insets left="30.0" />
                                     </padding>
@@ -121,7 +121,6 @@
                 </VBox>
             </left>
 
-            <!-- CENTER DASHBOARD CONTENT -->
             <center>
                 <AnchorPane fx:id="middleContent">
                     <children>
