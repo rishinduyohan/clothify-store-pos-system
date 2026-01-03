@@ -1,7 +1,4 @@
 package edu.icet.clothify.model.dto;
-
-import edu.icet.clothify.model.entity.Category;
-import edu.icet.clothify.model.entity.Supplier;
 import lombok.*;
 
 import java.math.BigDecimal;
