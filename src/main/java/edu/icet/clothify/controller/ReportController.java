@@ -67,7 +67,13 @@ public class ReportController {
 
     @FXML
     void btnSupplierReportOnAction(ActionEvent event) {
-        //Supplier management
+        try {
+            if (reportGenarateService.supplierContactList()) {
+                new Alert(Alert.AlertType.CONFIRMATION, "Report Generated successfully!").show();
+            }
+        } catch (NullPointerException e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        }
     }
 
     @FXML

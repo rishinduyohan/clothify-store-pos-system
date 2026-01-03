@@ -4,4 +4,5 @@ public interface ReportGenarateService {
     boolean dailySalesReport(String date);
     boolean monthlySalesReport(int month,int year);
     boolean topSellingProducts();
+    boolean supplierContactList();
 }

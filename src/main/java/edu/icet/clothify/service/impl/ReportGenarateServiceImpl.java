@@ -89,4 +89,27 @@ public class ReportGenarateServiceImpl implements ReportGenarateService {
         }
         return false;
     }
+
+    @Override
+    public boolean supplierContactList() {
+        if(null!=session){
+            session.doReturningWork(connection -> {
+                try {
+                    Map<String, Object> parameters = new HashMap<>();
+
+                    InputStream report = getClass().getResourceAsStream("/reports/supplier_contact_list.jrxml");
+                    JasperReport jasperReport = JasperCompileManager.compileReport(report);
+                    JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport,parameters,connection);
+                    JasperViewer.viewReport(jasperPrint,false);
+                    return true;
+                } catch (Exception e) {
+                    new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+                    return false;
+                }
+            });
+        }else{
+            supplierContactList();
+        }
+        return false;
+    }
 }
