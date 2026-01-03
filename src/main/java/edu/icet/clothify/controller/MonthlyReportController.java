@@ -49,7 +49,7 @@ public class MonthlyReportController implements Initializable {
             if (reportGenarateService.monthlySalesReport(getMonthValue(cmbMonth.getValue()), cmbYear.getValue())) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Report Generated successfully!").show();
             }
-        } catch (NullPointerException e) {
+        } catch (NullPointerException _) {
             new Alert(Alert.AlertType.ERROR, "Month or Year must selected!").show();
         }
     }

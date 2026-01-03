@@ -2,6 +2,8 @@ package edu.icet.clothify.config;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import javafx.scene.control.Alert;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
@@ -23,7 +25,7 @@ public class CloudinaryUtil {
             return (String) uploadResult.get("url");
 
         } catch (IOException e) {
-            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
             return null;
         }
     }

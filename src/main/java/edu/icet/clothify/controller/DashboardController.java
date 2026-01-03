@@ -157,6 +157,7 @@ public class DashboardController implements Initializable {
 
     @FXML
     void btnViewAllOrdersOnAction(ActionEvent event) {
+        //view orders
     }
 
     @FXML

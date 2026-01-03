@@ -66,7 +66,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                     employee.getContactNumber(),
                     employee.getEmail()
             );
-        } catch (Exception e) {
+        } catch (Exception _) {
             new Alert(Alert.AlertType.ERROR,"Invalid Employee id!").show();
             return null;
         }

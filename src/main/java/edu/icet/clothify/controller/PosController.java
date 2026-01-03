@@ -70,7 +70,6 @@ public class PosController implements Initializable {
     @FXML
     public Button btnPlaceOrder;
 
-    public Button btnClearAll;
 
     @FXML
     void btnPlaceOrderOnAction(ActionEvent event) {
@@ -82,7 +81,7 @@ public class PosController implements Initializable {
 
     @FXML
     void txtSearchOnAction(ActionEvent event) {
-
+        //text search
     }
 
     @Override
@@ -90,7 +89,7 @@ public class PosController implements Initializable {
         posService.loadProductsToGrid(productGrid,cartContainer,lblSubtotal);
     }
 
-    public void btnClearAllOnAction(ActionEvent actionEvent) {
+    public void btnClearAllOnAction() {
         if (posService.clearCart()){
             new Alert(Alert.AlertType.CONFIRMATION, "Item removed!").show();
         }

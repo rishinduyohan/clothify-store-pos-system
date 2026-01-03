@@ -163,7 +163,7 @@ public class EmployeeController implements Initializable {
         }
     }
 
-    public void searchOnAction(ActionEvent actionEvent) {
+    public void searchOnAction() {
         EmployeeDTO employeeDTO = employeeService.searchEmployee(Long.valueOf(txtSearch.getText()));
         if (employeeDTO!=null){
             txtEmployeeId.setText(String.valueOf(employeeDTO.getEmployeeId()));
