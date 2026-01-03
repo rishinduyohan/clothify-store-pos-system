@@ -32,10 +32,11 @@ public class ReportGenarateServiceImpl implements ReportGenarateService {
                     JasperReport jasperReport = JasperCompileManager.compileReport(reportStream);
                     JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, connection);
                     JasperViewer.viewReport(jasperPrint, false);
+                    return true;
                 } catch (Exception e) {
                     new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+                    return false;
                 }
-                return true;
             });
         } else {
             dailySalesReport(date);
@@ -55,13 +56,36 @@ public class ReportGenarateServiceImpl implements ReportGenarateService {
                    JasperReport jasperReport = JasperCompileManager.compileReport(reportStream);
                    JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport,parameters,connection);
                    JasperViewer.viewReport(jasperPrint,false);
+                   return true;
                } catch (Exception e) {
                    new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+                   return false;
                }
-               return true;
             });
         }else {
             monthlySalesReport(month,year);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean topSellingProducts() {
+        if (null!=session) {
+            session.doReturningWork(connection -> {
+                try {
+                    Map<String,Object> parameters = new HashMap<>();
+                    InputStream reportStream = getClass().getResourceAsStream("/reports/top_selling_products.jrxml");
+                    JasperReport jasperReport =  JasperCompileManager.compileReport(reportStream);
+                    JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport,parameters,connection);
+                    JasperViewer.viewReport(jasperPrint,false);
+                    return true;
+                } catch (Exception e) {
+                    new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+                    return false;
+                }
+            });
+        }else {
+            topSellingProducts();
         }
         return false;
     }

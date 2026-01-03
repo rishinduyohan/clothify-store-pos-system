@@ -1,10 +1,12 @@
 package edu.icet.clothify.controller;
 
+import edu.icet.clothify.service.ReportGenarateService;
+import edu.icet.clothify.service.impl.ReportGenarateServiceImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -13,6 +15,8 @@ import java.io.IOException;
 
 public class ReportController {
     Stage stage = new Stage();
+    ReportGenarateService reportGenarateService = new ReportGenarateServiceImpl();
+
     @FXML
     private Button btnDailySales;
 
@@ -42,7 +46,8 @@ public class ReportController {
         try {
             stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/daily_reports.fxml"))));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+
         }
         stage.setTitle("Daily reports");
         stage.show();
@@ -53,7 +58,8 @@ public class ReportController {
         try {
             stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/monthly_revenue.fxml"))));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+
         }
         stage.setTitle("Monthly reports");
         stage.show();
@@ -61,12 +67,18 @@ public class ReportController {
 
     @FXML
     void btnSupplierReportOnAction(ActionEvent event) {
-
+        //Supplier management
     }
 
     @FXML
     void btnTopSellingOnAction(ActionEvent event) {
-
+        try {
+            if (reportGenarateService.topSellingProducts()) {
+                new Alert(Alert.AlertType.CONFIRMATION, "Report Generated successfully!").show();
+            }
+        } catch (NullPointerException e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        }
     }
 
 }
