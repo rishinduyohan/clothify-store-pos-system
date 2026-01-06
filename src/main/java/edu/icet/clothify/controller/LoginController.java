@@ -1,11 +1,15 @@
 package edu.icet.clothify.controller;
 
 import edu.icet.clothify.config.CloudinaryUtil;
+import edu.icet.clothify.config.UserSession;
 import edu.icet.clothify.model.dto.UserDTO;
 import edu.icet.clothify.service.UserService;
 import edu.icet.clothify.service.impl.UserServiceImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
@@ -13,6 +17,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.File;
@@ -24,7 +29,7 @@ public class LoginController {
     String imageUrl = "";
     String password = "";
     String confirmPassword = "";
-
+    Stage stage = new Stage();
     @FXML
     private Button btnLogin;
 
@@ -79,18 +84,31 @@ public class LoginController {
         String inputPassword = txtLoginPassword.getText();
 
         UserDTO user = userService.getUser(email);
-
         if (user != null) {
             if (BCrypt.checkpw(inputPassword, user.getPassword())) {
-                new Alert(Alert.AlertType.CONFIRMATION, "Login Successful :  " + user.getUsername()).show();
+                UserSession.getInstance().setLoggedUser(user);
+                try {
+                    stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/dashboard.fxml"))));
+                    stage.setTitle("Dashboard Form");
+                    stage.show();
+                } catch (Exception e) {
+                    new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+                }
+                Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                currentStage.close();
             } else {
                 new Alert(Alert.AlertType.ERROR, "Invalid Password!").show();
+                clearLoginPage();
             }
         } else {
             new Alert(Alert.AlertType.ERROR, "User not found!").show();
         }
     }
 
+    private void clearLoginPage(){
+        txtLoginEmail.setText("");
+        txtLoginPassword.setText("");
+    }
     @FXML
     void btnSelectImageOnAction(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
@@ -157,5 +175,13 @@ public class LoginController {
         txtSignupEmail.setText("");
         txtSignupConfirmPassword.setText("");
         txtSignupPassword.setText("");
+    }
+
+    public void btnLogInPasswordOnAction(ActionEvent actionEvent) {
+        btnLoginOnAction(actionEvent);
+    }
+
+    public void btnSignUpPasswordOnAction(ActionEvent actionEvent) {
+        btnSignupOnAction(actionEvent);
     }
 }
