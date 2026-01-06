@@ -7,7 +7,6 @@ import edu.icet.clothify.repository.impl.SupplierRepositoryImpl;
 import edu.icet.clothify.service.SupplierService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
 import java.util.List;
 
 public class SupplierServiceImpl implements SupplierService {
