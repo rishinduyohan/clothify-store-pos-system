@@ -20,6 +20,7 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
 
 public class InventoryController implements Initializable {
 
@@ -30,6 +31,7 @@ public class InventoryController implements Initializable {
     InventoryService inventoryService = new InventoryServiceImpl();
     private String productImageUrl;
     ProductDTO productDTO;
+    Logger logger = Logger.getLogger(getClass().getName());
 
     @FXML
     private Button btnAdd;
@@ -124,22 +126,19 @@ public class InventoryController implements Initializable {
                 Integer qty = Integer.valueOf(qtyText);
                 productDTO.setStockQuantity(qty);
 
-            } catch (NumberFormatException e) {
+            } catch (NumberFormatException _) {
                 new Alert(Alert.AlertType.ERROR, "Invalid Price! Please enter a number.").show();
-                clearText();
             }
         }
         productDTO.setSupplier(cmbSupplier.getValue());
         return productDTO;
     }
 
-    private void clearText() {
-    }
-
     @FXML
     void btnAddOnAction(ActionEvent event) {
         if(inventoryService.addProduct(getCurrentProduct())){
             new Alert(Alert.AlertType.CONFIRMATION,"Product added Successfully!").show();
+            btnClearOnAction(event);
         }
         loadTable();
     }
@@ -157,15 +156,15 @@ public class InventoryController implements Initializable {
         if (file != null) {
             imgProduct.setImage(new Image(file.toURI().toString()));
 
-            System.out.println("Uploading image... Please wait.");
+            logger.info("Uploading image... Please wait.");
 
             String url = CloudinaryUtil.uploadImage(file);
 
             if (url != null) {
                 this.productImageUrl = url;
-                System.out.println("Upload Success! URL: " + url);
+                logger.info("Upload Success! URL: " + url);
             } else {
-                System.out.println("Upload Failed!");
+                logger.info("Upload Failed!");
             }
         }
     }
@@ -173,17 +172,18 @@ public class InventoryController implements Initializable {
     @FXML
     void btnClearOnAction(ActionEvent event) {
         txtName.setText("");
-        txtPrice.setText("0.00");
-        txtQty.setText("0");
-        cmbCategory.setValue("Select category");
-        cmbSize.setValue("Select size");
-        cmbSupplier.setValue("Select supplier");
+        txtPrice.setText("");
+        txtQty.setText("");
+        cmbCategory.setValue("");
+        cmbSize.setValue("");
+        cmbSupplier.setValue("");
     }
 
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
         if(inventoryService.removeProduct(productDTO.getProductId(),getCurrentProduct())){
             new Alert(Alert.AlertType.CONFIRMATION,"Product removed Successfully!").show();
+            btnClearOnAction(event);
         }
         loadTable();
     }
@@ -192,6 +192,7 @@ public class InventoryController implements Initializable {
     void btnUpdateOnAction(ActionEvent event) {
         if(inventoryService.updateProduct(productDTO.getProductId(),getCurrentProduct())){
             new Alert(Alert.AlertType.CONFIRMATION,"Product updated Successfully!").show();
+            btnClearOnAction(event);
         }
         loadTable();
     }
@@ -222,7 +223,7 @@ public class InventoryController implements Initializable {
                     try {
                         Image image = new Image(imagePath);
                         imgProduct.setImage(image);
-                    } catch (Exception e) {
+                    } catch (Exception _) {
                         new Alert(Alert.AlertType.ERROR,"Product image are empty!").show();
                     }
                 }

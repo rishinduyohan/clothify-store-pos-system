@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="280.0" prefWidth="420.0" style="-fx-background-color: white; -fx-border-color: #E2E8F0; -fx-border-width: 1;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.icet.clothify.controller.MonthlyReportController">
+    <children>
+        <VBox layoutX="30.0" layoutY="30.0" spacing="20.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="30.0">
+            <children>
+                <VBox spacing="5.0">
+                    <children>
+                        <Label text="Select Reporting Period" textFill="#2d3447">
+                            <font>
+                                <Font name="System Bold" size="20.0" />
+                            </font>
+                        </Label>
+                        <Label text="Choose the month and year for the revenue report." textFill="#888888">
+                            <font>
+                                <Font size="13.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </VBox>
+
+                <VBox spacing="8.0">
+                    <children>
+                        <Label text="Period" textFill="#2d3447">
+                            <font>
+                                <Font name="System Bold" size="12.0" />
+                            </font>
+                        </Label>
+                        <HBox spacing="15.0">
+                            <children>
+                                <ComboBox fx:id="cmbMonth" maxWidth="1.7976931348623157E308" prefHeight="40.0" promptText="Select Month" style="-fx-font-size: 14px; -fx-background-color: white; -fx-border-color: #E1E1E1; -fx-border-radius: 6;" HBox.hgrow="ALWAYS" />
+                                <ComboBox fx:id="cmbYear" prefHeight="40.0" prefWidth="120.0" promptText="Year" style="-fx-font-size: 14px; -fx-background-color: white; -fx-border-color: #E1E1E1; -fx-border-radius: 6;" />
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+
+                <!-- Action Buttons -->
+                <HBox alignment="CENTER_RIGHT" spacing="10.0" VBox.vgrow="ALWAYS">
+                    <children>
+                        <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#btnCancelOnAction" prefHeight="38.0" prefWidth="100.0" style="-fx-background-color: white; -fx-text-fill: #64748B; -fx-border-color: #CBD5E1; -fx-border-radius: 6; -fx-background-radius: 6; -fx-cursor: hand; -fx-font-weight: bold;" text="Cancel" />
+                        <Button fx:id="btnGenerate" mnemonicParsing="false" onAction="#btnGenerateOnAction" prefHeight="38.0" prefWidth="140.0" style="-fx-background-color: #4B7BEC; -fx-text-fill: white; -fx-background-radius: 6; -fx-cursor: hand; -fx-font-weight: bold; -fx-effect: dropshadow(three-pass-box, rgba(75, 123, 236, 0.2), 5, 0, 0, 3);" text="Generate" />
+                    </children>
+                    <VBox.margin>
+                        <Insets top="10.0" />
+                    </VBox.margin>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

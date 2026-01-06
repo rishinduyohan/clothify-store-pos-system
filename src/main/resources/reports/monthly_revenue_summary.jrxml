@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.21.5.final using JasperReports Library version 6.21.5-74d586df47b25dbd05bd0957999819196e59934a  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="monthly_revenue_report" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a7243c30-3486-4444-934c-687f872d80d2">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="clothify_store"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<subDataset name="MonthlyChartDataset" uuid="b932f915-6f3c-41c3-8f08-300445a55734">
+		<parameter name="sub_year_month" class="java.lang.String"/>
+		<queryString language="SQL">
+			<![CDATA[SELECT payment_method, SUM(total_amount) as total_by_method 
+            FROM orders 
+            WHERE DATE_FORMAT(order_date, '%Y-%m') = $P{sub_year_month} 
+            GROUP BY payment_method]]>
+		</queryString>
+		<field name="payment_method" class="java.lang.String"/>
+		<field name="total_by_method" class="java.lang.Double"/>
+	</subDataset>
+	<parameter name="year_month" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT order_id, order_date, total_amount, payment_method 
+        FROM orders 
+        WHERE DATE_FORMAT(order_date, '%Y-%m') = $P{year_month}
+        ORDER BY order_date ASC]]>
+	</queryString>
+	<field name="order_id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="order_id"/>
+		<property name="com.jaspersoft.studio.field.label" value="order_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="orders"/>
+	</field>
+	<field name="order_date" class="java.time.LocalDateTime">
+		<property name="com.jaspersoft.studio.field.name" value="order_date"/>
+		<property name="com.jaspersoft.studio.field.label" value="order_date"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="orders"/>
+	</field>
+	<field name="total_amount" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="total_amount"/>
+		<property name="com.jaspersoft.studio.field.label" value="total_amount"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="orders"/>
+	</field>
+	<field name="payment_method" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="payment_method"/>
+		<property name="com.jaspersoft.studio.field.label" value="payment_method"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="orders"/>
+	</field>
+	<variable name="monthly_total" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{total_amount}]]></variableExpression>
+	</variable>
+	<title>
+		<band height="110" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="120" height="30" forecolor="#0056B3" uuid="c66136d8-8096-485e-8515-5386049a0f5a"/>
+				<textElement>
+					<font size="22" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Clothify]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="40" width="555" height="35" forecolor="#333333" uuid="de41416b-0968-4682-9642-892418578491"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="24" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MONTHLY REVENUE REPORT]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="400" y="80" width="155" height="20" forecolor="#666666" uuid="df81d4fe-7dec-11d0-a765-00a0c91e6bf6"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Period: " + $P{year_month}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="105" width="555" height="1" forecolor="#0056B3" uuid="d7d44540-9dad-11d1-80b4-00c04fd430c8"/>
+				<graphicElement>
+					<pen lineWidth="2.0"/>
+				</graphicElement>
+			</line>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="80" height="30" forecolor="#FFFFFF" backcolor="#0056B3" uuid="ea475e11-9dad-11d1-80b4-00c04fd430c8"/>
+				<box>
+					<pen lineWidth="0.5" lineColor="#003366"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Order ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="80" y="0" width="190" height="30" forecolor="#FFFFFF" backcolor="#0056B3" uuid="eb475e11-9dad-11d1-80b4-00c04fd430c8"/>
+				<box>
+					<pen lineWidth="0.5" lineColor="#003366"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date & Time]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="270" y="0" width="140" height="30" forecolor="#FFFFFF" backcolor="#0056B3" uuid="ec475e11-9dad-11d1-80b4-00c04fd430c8"/>
+				<box>
+					<pen lineWidth="0.5" lineColor="#003366"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Payment Method]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="410" y="0" width="145" height="30" forecolor="#FFFFFF" backcolor="#0056B3" uuid="ed475e11-9dad-11d1-80b4-00c04fd430c8"/>
+				<box>
+					<pen lineWidth="0.5" lineColor="#003366"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Amount (LKR)]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="25" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="80" height="25" uuid="fe475e11-9dad-11d1-80b4-00c04fd430c8"/>
+				<box>
+					<pen lineWidth="0.5" lineColor="#B3C6E7"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{order_id}]]></textFieldExpression>
+			</textField>
+			<textField pattern="yyyy-MM-dd HH:mm:ss">
+				<reportElement x="80" y="0" width="190" height="25" uuid="ff475e11-9dad-11d1-80b4-00c04fd430c8"/>
+				<box>
+					<pen lineWidth="0.5" lineColor="#B3C6E7"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{order_date}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="270" y="0" width="140" height="25" uuid="f0475e11-9dad-11d1-80b4-00c04fd430c8"/>
+				<box>
+					<pen lineWidth="0.5" lineColor="#B3C6E7"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{payment_method}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="410" y="0" width="145" height="25" uuid="f1475e11-9dad-11d1-80b4-00c04fd430c8"/>
+				<box>
+					<pen lineWidth="0.5" lineColor="#B3C6E7"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<paragraph rightIndent="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total_amount}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="410" splitType="Stretch">
+			<staticText>
+				<reportElement x="280" y="15" width="130" height="30" forecolor="#003399" uuid="f2475e11-9dad-11d1-80b4-00c04fd430c8"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Monthly Total: ]]></text>
+			</staticText>
+			<textField pattern="LKR #,##0.00">
+				<reportElement x="410" y="15" width="145" height="30" forecolor="#0056B3" uuid="f3475e11-9dad-11d1-80b4-00c04fd430c8"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Double" lineColor="#0056B3"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{monthly_total}]]></textFieldExpression>
+			</textField>
+			<pieChart>
+				<chart evaluationTime="Report">
+					<reportElement x="77" y="60" width="400" height="230" uuid="f4475e11-9dad-11d1-80b4-00c04fd430c8"/>
+					<chartTitle color="#003399">
+						<titleExpression><![CDATA["Monthly Sales by Payment Method"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<pieDataset>
+					<dataset>
+						<datasetRun subDataset="MonthlyChartDataset" uuid="f9d0e1f2-3b4c-5d6e-7f8a-9b0c1d2e3f4a">
+							<datasetParameter name="sub_year_month">
+								<datasetParameterExpression><![CDATA[$P{year_month}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+					</dataset>
+					<keyExpression><![CDATA[$F{payment_method}]]></keyExpression>
+					<valueExpression><![CDATA[$F{total_by_method}]]></valueExpression>
+				</pieDataset>
+				<piePlot labelFormat="{0} ({2})">
+					<plot>
+						<seriesColor seriesOrder="0" color="#0056B3"/>
+					</plot>
+					<itemLabel/>
+				</piePlot>
+			</pieChart>
+			<line>
+				<reportElement x="380" y="370" width="150" height="1" uuid="f829d5b4-e634-4a41-863a-863116345678"/>
+			</line>
+			<staticText>
+				<reportElement x="380" y="375" width="150" height="20" uuid="f111d4fa-1234-5678-a765-00a0c91e6bf6"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Manager Signature]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

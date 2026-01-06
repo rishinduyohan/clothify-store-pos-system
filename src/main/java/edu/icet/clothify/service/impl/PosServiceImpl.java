@@ -6,6 +6,7 @@ import edu.icet.clothify.repository.PosRepository;
 import edu.icet.clothify.repository.impl.PosRepositoryImpl;
 import edu.icet.clothify.service.PosService;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -20,7 +21,6 @@ import java.math.BigDecimal;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -83,7 +83,7 @@ public class PosServiceImpl implements PosService {
                                 Image image = new Image(imagePath);
                                 imageView.setImage(image);
                             } catch (Exception e) {
-                                throw new RuntimeException(e);
+                                new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
                             }
                         }
                         nameLabel.setText(product.getName());
@@ -101,13 +101,11 @@ public class PosServiceImpl implements PosService {
                         column = 0;
                         row++;
                     }
-                addToCartBtn.setOnAction(event -> {
-                    addToCart(product,cartContainer);
-                });
+                addToCartBtn.setOnAction(event -> addToCart(product,cartContainer));
                 }
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
         }
     }
 
@@ -161,7 +159,7 @@ public class PosServiceImpl implements PosService {
                 netTotal = netTotal.add(item.getTotal());
 
             } catch (IOException e) {
-                e.printStackTrace();
+                new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
             }
         }
         totalValue.setText(netTotal.toPlainString());
@@ -179,7 +177,7 @@ public class PosServiceImpl implements PosService {
     public boolean SaveOrder() {
         Order newOrder = new Order();
         newOrder.setDate(LocalDateTime.now());
-        newOrder.setTotalAmount(totalValue.getText());
+        newOrder.setTotalAmount(Double.parseDouble(totalValue.getText()));
         newOrder.setPaymentMethod("Cash");
         if (posRepository.saveOrder(newOrder)){
             for (CartItem item : cartItems){

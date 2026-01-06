@@ -19,13 +19,15 @@ public class User {
     @Column(name = "username")
     private String username;
 
+    @Column(name = "email")
+    private String email;
+
     @Column(name = "password")
     private String password;
 
     @Column(name = "role")
     private String role;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "employee_id",nullable = false)
-    private Employee employee;
+    @Column(name = "imageUrl")
+    private String imageUrl;
 }

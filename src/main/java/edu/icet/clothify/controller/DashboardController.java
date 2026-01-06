@@ -1,5 +1,11 @@
 package edu.icet.clothify.controller;
 
+import edu.icet.clothify.config.UserSession;
+import edu.icet.clothify.model.dto.UserDTO;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,21 +16,27 @@ import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class DashboardController implements Initializable {
     Stage stage = new Stage();
-    private final String ACTIVE_STYLE = "-fx-background-color: #4B7BEC; -fx-background-radius: 0 30 30 0; -fx-cursor: hand;-fx-text-fill:white;";
-    private final String INACTIVE_STYLE = "-fx-background-color: transparent; -fx-cursor: hand;";
+    UserDTO loggedUser = new UserDTO();
+    private static final String ACTIVE_STYLE = "-fx-background-color: #4B7BEC; -fx-background-radius: 0 30 30 0; -fx-cursor: hand;-fx-text-fill:white;";
+    private static final String INACTIVE_STYLE = "-fx-background-color: transparent; -fx-cursor: hand;";
 
     @FXML
     private AnchorPane mainContent;
@@ -33,7 +45,7 @@ public class DashboardController implements Initializable {
     private AnchorPane middleContent;
 
     @FXML
-    private Button btnCustomers;
+    private Button btnSupplier;
 
     @FXML
     private Button btnDashboard;
@@ -150,8 +162,14 @@ public class DashboardController implements Initializable {
     private VBox vboxTrending;
 
     @FXML
-    void btnCustomersOnAction(ActionEvent event) {
+    void btnSupplierOnAction(ActionEvent event) {
+        updateActiveButton(btnSupplier);
+        setUi("/view/Supplier.fxml");
+    }
 
+    @FXML
+    void btnViewAllOrdersOnAction(ActionEvent event) {
+        //view orders
     }
 
     @FXML
@@ -161,7 +179,7 @@ public class DashboardController implements Initializable {
             Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             currentStage.close();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
         }
         stage.setTitle("Dashboard");
         stage.show();
@@ -169,12 +187,14 @@ public class DashboardController implements Initializable {
 
     @FXML
     void btnEmployeeOnAction(ActionEvent event) {
-
+        updateActiveButton(btnEmployee);
+        setUi("/view/employee.fxml");
     }
 
     @FXML
     void btnInventoryOnAction(ActionEvent event) {
-
+        updateActiveButton(btnInventory);
+        setUi("/view/inventory_mgt.fxml");
     }
 
     @FXML
@@ -185,17 +205,21 @@ public class DashboardController implements Initializable {
 
     @FXML
     void btnReportsOnAction(ActionEvent event) {
-
+        updateActiveButton(btnReports);
+        setUi("/view/report_genarate.fxml");
     }
-
-    @FXML
-    void btnViewAllOrdersOnAction(ActionEvent event) {
-
-    }
-
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        loggedUser = UserSession.getInstance().getLoggedUser();
+        loadRoles(loggedUser);
+        Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, d MMM yyyy | hh:mm:ss a");
+            lblDate.setText(LocalDateTime.now().format(formatter));
+        }), new KeyFrame(Duration.seconds(1)));
+        clock.setCycleCount(Animation.INDEFINITE);
+        clock.play();
+
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         series.setName("Weekly Revenue");
 
@@ -210,8 +234,41 @@ public class DashboardController implements Initializable {
         revenueChart.getData().add(series);
     }
 
+    private void loadRoles(UserDTO userDTO){
+        if (userDTO!=null){
+            if (!userDTO.getEmail().endsWith("@clothify.com")){
+                btnEmployee.setDisable(true);
+                btnInventory.setDisable(true);
+                btnReports.setDisable(true);
+                btnSupplier.setDisable(true);
+                btnEmployee.setVisible(false);
+                btnInventory.setVisible(false);
+                btnReports.setVisible(false);
+                btnSupplier.setVisible(false);
+            }
+            lblUserName.setText(userDTO.getUsername());
+            lblUserRole.setText(userDTO.getEmail());
+            try {
+                String imagePath = userDTO.getImage();
+                if (imagePath != null && !imagePath.isEmpty()) {
+                    Image profileImg = new Image(imagePath, true);
+                    //for load image to circle
+                    profileImg.progressProperty().addListener((observable, oldValue, newValue) -> {
+                        if (newValue.doubleValue() == 1.0) { // when 100% complete
+                            Platform.runLater(() -> {
+                                ImagePattern pattern = new ImagePattern(profileImg);
+                                imgUserProfile.setFill(pattern);
+                            });
+                        }
+                    });
+                }
+            } catch (Exception e){
+                new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+            }
+        }
+    }
     private void updateActiveButton(Button clickedButton) {
-        List<Button> allButtons = Arrays.asList(btnDashboard, btnPos, btnEmployee, btnInventory, btnCustomers,btnReports);
+        List<Button> allButtons = Arrays.asList(btnDashboard, btnPos, btnEmployee, btnInventory, btnSupplier,btnReports);
 
         for (Button btn : allButtons) {
             if (btn == clickedButton) {
@@ -235,7 +292,7 @@ public class DashboardController implements Initializable {
             AnchorPane.setBottomAnchor(loadedUi, 0.0);
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
         }
     }
 }

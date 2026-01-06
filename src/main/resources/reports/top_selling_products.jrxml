@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.21.5.final using JasperReports Library version 6.21.5-74d586df47b25dbd05bd0957999819196e59934a  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="top_selling_products" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7243c390-3486-4444-934c-687f872d80d2">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="clothify_store"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<subDataset name="ChartDataset" uuid="932f9175-6f3c-41c3-8f08-300445a55734">
+		<queryString language="SQL">
+			<![CDATA[SELECT p.name AS product_name, SUM(od.quantity) AS total_qty 
+          	FROM products p 
+            JOIN orderdetails od ON p.product_id = od.product_id 
+            GROUP BY p.product_id 
+            ORDER BY total_qty DESC LIMIT 5]]>
+		</queryString>
+		<field name="product_name" class="java.lang.String"/>
+		<field name="total_qty" class="java.math.BigDecimal"/>
+	</subDataset>
+	<queryString language="SQL">
+		<![CDATA[SELECT p.product_id, p.name, p.image_path, SUM(od.quantity) as total_sold, p.price
+        FROM products p 
+        JOIN orderdetails od ON p.product_id = od.product_id 
+        GROUP BY p.product_id 
+        ORDER BY total_sold DESC LIMIT 10]]>
+	</queryString>
+	<field name="product_id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="product_id"/>
+		<property name="com.jaspersoft.studio.field.label" value="product_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="products"/>
+	</field>
+	<field name="name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="name"/>
+		<property name="com.jaspersoft.studio.field.label" value="name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="products"/>
+	</field>
+	<field name="image_path" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="image_path"/>
+		<property name="com.jaspersoft.studio.field.label" value="image_path"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="products"/>
+	</field>
+	<field name="total_sold" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="total_sold"/>
+		<property name="com.jaspersoft.studio.field.label" value="total_sold"/>
+	</field>
+	<field name="price" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="price"/>
+		<property name="com.jaspersoft.studio.field.label" value="price"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="products"/>
+	</field>
+	<title>
+		<band height="110" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="120" height="30" forecolor="#0056B3" uuid="66136d81-8096-485e-8515-5386049a0f5a"/>
+				<textElement>
+					<font size="22" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Clothify]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="40" width="555" height="35" forecolor="#333333" uuid="e4141d6b-0968-4682-9642-892418578491"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="24" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOP SELLING PRODUCTS]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="100" width="555" height="1" forecolor="#0056B3" uuid="7d445400-9dad-11d1-80b4-00c04fd430c8"/>
+				<graphicElement>
+					<pen lineWidth="2.0"/>
+				</graphicElement>
+			</line>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="35" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="100" height="35" forecolor="#FFFFFF" backcolor="#0056B3" uuid="a475e110-9dad-11d1-80b4-00c04fd430c8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Product Image]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="100" y="0" width="200" height="35" forecolor="#FFFFFF" backcolor="#0056B3" uuid="b475e110-9dad-11d1-80b4-00c04fd430c8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Product Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="300" y="0" width="125" height="35" forecolor="#FFFFFF" backcolor="#0056B3" uuid="c475e110-9dad-11d1-80b4-00c04fd430c8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Qty Sold]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="425" y="0" width="130" height="35" forecolor="#FFFFFF" backcolor="#0056B3" uuid="d475e110-9dad-11d1-80b4-00c04fd430c8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Unit Price (LKR)]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="75" splitType="Stretch">
+			<image scaleImage="FillFrame" hAlign="Center" vAlign="Middle" onErrorType="Blank">
+				<reportElement x="10" y="5" width="80" height="60" uuid="66136d81-8096-485e-8515-5386049a0f51"/>
+				<imageExpression><![CDATA[$F{image_path}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="100" y="0" width="200" height="70" uuid="e475e110-9dad-11d1-80b4-00c04fd430c2"/>
+				<box>
+					<pen lineWidth="0.5" lineColor="#B3C6E7"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="300" y="0" width="125" height="70" uuid="f475e110-9dad-11d1-80b4-00c04fd430c3"/>
+				<box>
+					<pen lineWidth="0.5" lineColor="#B3C6E7"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total_sold}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="425" y="0" width="130" height="70" uuid="0475e110-9dad-11d1-80b4-00c04fd430c4"/>
+				<box>
+					<pen lineWidth="0.5" lineColor="#B3C6E7"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<paragraph rightIndent="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{price}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="360" splitType="Stretch">
+			<barChart>
+				<chart evaluationTime="Report">
+					<reportElement x="50" y="30" width="450" height="250" uuid="4475e110-9dad-11d1-80b4-00c04fd430c8"/>
+					<chartTitle color="#003399">
+						<titleExpression><![CDATA["Top Selling Products Visualized"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="ChartDataset" uuid="9d0e1f2a-3b4c-5d6e-7f8a-9b0c1d2e3f4a">
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["Quantity Sold"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{product_name}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{total_qty}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot isShowLabels="true">
+					<plot>
+						<seriesColor seriesOrder="0" color="#0056B3"/>
+					</plot>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+			<line>
+				<reportElement x="380" y="330" width="150" height="1" uuid="f829d5b4-e634-4a41-863a-863116345678"/>
+			</line>
+			<staticText>
+				<reportElement x="380" y="335" width="150" height="20" uuid="f111d4fa-1234-5678-a765-00a0c91e6bf6"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Authorized Signature]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>
