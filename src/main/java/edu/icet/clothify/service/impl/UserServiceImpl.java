@@ -1,7 +1,4 @@
 package edu.icet.clothify.service.impl;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import org.mindrot.jbcrypt.BCrypt;
 import edu.icet.clothify.model.dto.UserDTO;
