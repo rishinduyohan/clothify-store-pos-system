@@ -1,4 +1,8 @@
 package edu.icet.clothify.service.impl;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.stage.Stage;
 import org.mindrot.jbcrypt.BCrypt;
 import edu.icet.clothify.model.dto.UserDTO;
 import edu.icet.clothify.model.entity.User;
@@ -8,6 +12,7 @@ import edu.icet.clothify.service.UserService;
 
 public class UserServiceImpl implements UserService {
     UserRepository userRepository = new UserRepositoryImpl();
+    Stage stage = new Stage();
 
     @Override
     public boolean addUser(UserDTO userDTO) {
