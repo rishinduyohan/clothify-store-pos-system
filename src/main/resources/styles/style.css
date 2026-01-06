@@ -50,3 +50,26 @@
     -fx-font-weight: bold;
     -fx-cursor: hand;
 }
+
+.login-input {
+    -fx-background-color: #F8FAFC;
+    -fx-border-color: #E2E8F0;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 0 15 0 15;
+}
+
+.login-input:focused {
+    -fx-border-color: #3B82F6;
+    -fx-background-color: white;
+}
+
+.login-button {
+    -fx-background-color: #3B82F6;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+.login-button:hover {
+    -fx-background-color: #2563EB;
+}
