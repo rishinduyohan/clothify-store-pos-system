@@ -93,8 +93,8 @@
                                                 </VBox>
                                                 <VBox prefHeight="130.0" styleClass="kpi-card" HBox.hgrow="ALWAYS">
                                                     <children>
-                                                        <Label text="TOTAL CUSTOMERS" textFill="#64748B"><font><Font name="System Bold" size="12.0" /></font></Label>
-                                                        <Label fx:id="lblTotalCustomers" text="0" textFill="#0F172A"><font><Font name="System Bold" size="28.0" /></font></Label>
+                                                        <Label text="TOTAL PRODUCTS" textFill="#64748B"><font><Font name="System Bold" size="12.0" /></font></Label>
+                                                        <Label fx:id="lblTotalProducts" text="0" textFill="#0F172A"><font><Font name="System Bold" size="28.0" /></font></Label>
                                                         <Label text="+24 new this week" textFill="#8B5CF6" />
                                                     </children>
                                                 </VBox>
