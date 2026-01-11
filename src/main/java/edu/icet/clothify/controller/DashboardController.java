@@ -36,6 +36,7 @@ import java.util.ResourceBundle;
 
 public class DashboardController implements Initializable {
     Stage stage = new Stage();
+    double totalRevenue = 0.0;
     UserDTO loggedUser = new UserDTO();
     private static final String ACTIVE_STYLE = "-fx-background-color: #4B7BEC; -fx-background-radius: 0 30 30 0; -fx-cursor: hand;-fx-text-fill:white;";
     private static final String INACTIVE_STYLE = "-fx-background-color: transparent; -fx-cursor: hand;";
@@ -217,32 +218,38 @@ public class DashboardController implements Initializable {
         loggedUser = UserSession.getInstance().getLoggedUser();
         loadRoles(loggedUser);
         loadSummary();
+        loadWeeklyRevenueChart();
         Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, d MMM yyyy | hh:mm:ss a");
             lblDate.setText(LocalDateTime.now().format(formatter));
         }), new KeyFrame(Duration.seconds(1)));
         clock.setCycleCount(Animation.INDEFINITE);
         clock.play();
-
-        XYChart.Series<String, Number> series = new XYChart.Series<>();
-        series.setName("Weekly Revenue");
-
-        series.getData().add(new XYChart.Data<>("Mon", 1200));
-        series.getData().add(new XYChart.Data<>("Tue", 1500));
-        series.getData().add(new XYChart.Data<>("Wed", 800));
-        series.getData().add(new XYChart.Data<>("Thu", 2100));
-        series.getData().add(new XYChart.Data<>("Fri", 1750));
-        series.getData().add(new XYChart.Data<>("Sat", 3200));
-        series.getData().add(new XYChart.Data<>("Sun", 2900));
-
-        revenueChart.getData().add(series);
     }
 
     private void loadSummary(){
-        lblTotalRevenue.setText("LKR "+dashboardService.getTotalRevenue());
+        totalRevenue = dashboardService.getTotalRevenue();
+        lblTotalRevenue.setText("LKR "+totalRevenue);
         lblActiveOrders.setText(""+dashboardService.getActiveOrders());
         lblTotalProducts.setText(""+dashboardService.getTotalProducts());
         lblItemsSold.setText(""+dashboardService.getSoldItemCount());
+
+        double goal = 1200000.0;
+        progressMonthlyGoal.setProgress(totalRevenue / goal);
+        lblMonthlyGoalPercent.setText((int)((totalRevenue / goal) * 100) + "%");
+    }
+    private void loadWeeklyRevenueChart(){
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
+        series.setName("Weekly Revenue");
+        List<Object[]> weeklyData = dashboardService.getWeeklySalesData();
+
+        for (Object[] row : weeklyData) {
+            String date = row[0].toString();
+            Double total = (Double) row[1];
+            series.getData().add(new XYChart.Data<>(date, total));
+        }
+        revenueChart.getData().clear();
+        revenueChart.getData().add(series);
     }
     private void loadRoles(UserDTO userDTO){
         if (userDTO!=null){

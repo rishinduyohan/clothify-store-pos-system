@@ -5,8 +5,14 @@ import edu.icet.clothify.repository.impl.DashboardRepositoryImpl;
 import edu.icet.clothify.service.DashboardService;
 import javafx.scene.control.Alert;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 public class DashboardServiceImpl implements DashboardService {
     DashboardRepository dashboardRepository = new DashboardRepositoryImpl();
+    LocalDateTime startDate = LocalDate.now().minusDays(10).atStartOfDay();
 
     @Override
     public double getTotalRevenue() {
@@ -46,5 +52,15 @@ public class DashboardServiceImpl implements DashboardService {
             new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
         }
         return 0;
+    }
+
+    @Override
+    public List<Object[]> getWeeklySalesData() {
+        try{
+            return dashboardRepository.getWeeklySalesData(startDate);
+        } catch (Exception e) {
+            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+        }
+        return new ArrayList<>();
     }
 }
