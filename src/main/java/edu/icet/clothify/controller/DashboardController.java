@@ -2,6 +2,8 @@ package edu.icet.clothify.controller;
 
 import edu.icet.clothify.config.UserSession;
 import edu.icet.clothify.model.dto.UserDTO;
+import edu.icet.clothify.service.DashboardService;
+import edu.icet.clothify.service.impl.DashboardServiceImpl;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -37,6 +39,7 @@ public class DashboardController implements Initializable {
     UserDTO loggedUser = new UserDTO();
     private static final String ACTIVE_STYLE = "-fx-background-color: #4B7BEC; -fx-background-radius: 0 30 30 0; -fx-cursor: hand;-fx-text-fill:white;";
     private static final String INACTIVE_STYLE = "-fx-background-color: transparent; -fx-cursor: hand;";
+    DashboardService dashboardService = new DashboardServiceImpl();
 
     @FXML
     private AnchorPane mainContent;
@@ -102,7 +105,7 @@ public class DashboardController implements Initializable {
     private Label lblMonthlyGoalValue;
 
     @FXML
-    private Label lblTotalCustomers;
+    private Label lblTotalProducts;
 
     @FXML
     private Label lblTotalRevenue;
@@ -213,6 +216,7 @@ public class DashboardController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         loggedUser = UserSession.getInstance().getLoggedUser();
         loadRoles(loggedUser);
+        loadSummary();
         Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, d MMM yyyy | hh:mm:ss a");
             lblDate.setText(LocalDateTime.now().format(formatter));
@@ -234,6 +238,12 @@ public class DashboardController implements Initializable {
         revenueChart.getData().add(series);
     }
 
+    private void loadSummary(){
+        lblTotalRevenue.setText("LKR "+dashboardService.getTotalRevenue());
+        lblActiveOrders.setText(""+dashboardService.getActiveOrders());
+        lblTotalProducts.setText(""+dashboardService.getTotalProducts());
+        lblItemsSold.setText(""+dashboardService.getSoldItemCount());
+    }
     private void loadRoles(UserDTO userDTO){
         if (userDTO!=null){
             if (!userDTO.getEmail().endsWith("@clothify.com")){
