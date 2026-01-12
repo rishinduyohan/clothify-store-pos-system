@@ -1,7 +1,4 @@
 package edu.icet.clothify.service.impl;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import org.mindrot.jbcrypt.BCrypt;
 import edu.icet.clothify.model.dto.UserDTO;
@@ -28,6 +25,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO getUser(String email) {
         User user = userRepository.getUser(email);
+        if (user == null) {
+            return null;
+        }
         return new UserDTO(user.getUsername(),user.getEmail(),user.getPassword(),user.getImageUrl());
     }
 

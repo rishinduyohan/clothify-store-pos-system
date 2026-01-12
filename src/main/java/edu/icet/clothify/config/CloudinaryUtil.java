@@ -11,6 +11,8 @@ import java.util.Map;
 public class CloudinaryUtil {
     private static Cloudinary cloudinary;
 
+    private CloudinaryUtil(){}
+
     static {
         cloudinary = new Cloudinary(ObjectUtils.asMap(
                 "cloud_name", "dnv1qojla",

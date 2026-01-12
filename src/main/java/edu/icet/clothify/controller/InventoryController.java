@@ -103,7 +103,7 @@ public class InventoryController implements Initializable {
     private TextField txtSearch;
 
     private ProductDTO getCurrentProduct(){
-        ProductDTO productDTO = new ProductDTO();
+        productDTO = new ProductDTO();
         productDTO.setName(txtName.getText());
         productDTO.setCategory(cmbCategory.getValue());
         productDTO.setDescription(cmbSize.getValue());
@@ -162,7 +162,7 @@ public class InventoryController implements Initializable {
 
             if (url != null) {
                 this.productImageUrl = url;
-                logger.info("Upload Success! URL: " + url);
+                logger.info(url);
             } else {
                 logger.info("Upload Failed!");
             }

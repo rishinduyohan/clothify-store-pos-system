@@ -1,11 +1,16 @@
 package edu.icet.clothify.controller;
 
 import edu.icet.clothify.config.UserSession;
+import edu.icet.clothify.model.dto.OrderTM;
 import edu.icet.clothify.model.dto.UserDTO;
+import edu.icet.clothify.service.DashboardService;
+import edu.icet.clothify.service.impl.DashboardServiceImpl;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,6 +21,7 @@ import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -34,9 +40,11 @@ import java.util.ResourceBundle;
 
 public class DashboardController implements Initializable {
     Stage stage = new Stage();
+    double totalRevenue = 0.0;
     UserDTO loggedUser = new UserDTO();
     private static final String ACTIVE_STYLE = "-fx-background-color: #4B7BEC; -fx-background-radius: 0 30 30 0; -fx-cursor: hand;-fx-text-fill:white;";
     private static final String INACTIVE_STYLE = "-fx-background-color: transparent; -fx-cursor: hand;";
+    DashboardService dashboardService = new DashboardServiceImpl();
 
     @FXML
     private AnchorPane mainContent;
@@ -69,19 +77,16 @@ public class DashboardController implements Initializable {
     private TableColumn<?, ?> colAmount;
 
     @FXML
-    private TableColumn<?, ?> colCustomer;
+    private TableColumn<?, ?> colProduct;
 
     @FXML
     private TableColumn<?, ?> colDate;
 
     @FXML
-    private TableColumn<?, ?> colItems;
-
-    @FXML
     private TableColumn<?, ?> colOrderId;
 
     @FXML
-    private TableColumn<?, ?> colStatus;
+    private TableColumn<?, ?> colMethod;
 
     @FXML
     private Circle imgUserProfile;
@@ -102,7 +107,7 @@ public class DashboardController implements Initializable {
     private Label lblMonthlyGoalValue;
 
     @FXML
-    private Label lblTotalCustomers;
+    private Label lblTotalProducts;
 
     @FXML
     private Label lblTotalRevenue;
@@ -150,7 +155,7 @@ public class DashboardController implements Initializable {
     private VBox rightSidePane;
 
     @FXML
-    private TableView<?> tblRecentOrders;
+    private TableView<OrderTM> tblRecentOrders;
 
     @FXML
     private VBox vboxCashiers;
@@ -213,6 +218,8 @@ public class DashboardController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         loggedUser = UserSession.getInstance().getLoggedUser();
         loadRoles(loggedUser);
+        loadSummary();
+        loadWeeklyRevenueChart();
         Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, d MMM yyyy | hh:mm:ss a");
             lblDate.setText(LocalDateTime.now().format(formatter));
@@ -220,20 +227,42 @@ public class DashboardController implements Initializable {
         clock.setCycleCount(Animation.INDEFINITE);
         clock.play();
 
-        XYChart.Series<String, Number> series = new XYChart.Series<>();
-        series.setName("Weekly Revenue");
+        colOrderId.setCellValueFactory(new PropertyValueFactory<>("orderId"));
+        colProduct.setCellValueFactory(new PropertyValueFactory<>("productName"));
+        colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+        colAmount.setCellValueFactory(new PropertyValueFactory<>("amount"));
+        colMethod.setCellValueFactory(new PropertyValueFactory<>("paymentMethod"));
 
-        series.getData().add(new XYChart.Data<>("Mon", 1200));
-        series.getData().add(new XYChart.Data<>("Tue", 1500));
-        series.getData().add(new XYChart.Data<>("Wed", 800));
-        series.getData().add(new XYChart.Data<>("Thu", 2100));
-        series.getData().add(new XYChart.Data<>("Fri", 1750));
-        series.getData().add(new XYChart.Data<>("Sat", 3200));
-        series.getData().add(new XYChart.Data<>("Sun", 2900));
-
-        revenueChart.getData().add(series);
+        ObservableList<OrderTM> orders = FXCollections.observableArrayList(dashboardService.getRecentOrders());
+        tblRecentOrders.setItems(orders);
     }
 
+    private void loadRecentOrders(){
+    }
+    private void loadSummary(){
+        totalRevenue = dashboardService.getTotalRevenue();
+        lblTotalRevenue.setText("LKR "+totalRevenue);
+        lblActiveOrders.setText(""+dashboardService.getActiveOrders());
+        lblTotalProducts.setText(""+dashboardService.getTotalProducts());
+        lblItemsSold.setText(""+dashboardService.getSoldItemCount());
+
+        double goal = 1200000.0;
+        progressMonthlyGoal.setProgress(totalRevenue / goal);
+        lblMonthlyGoalPercent.setText((int)((totalRevenue / goal) * 100) + "%");
+    }
+    private void loadWeeklyRevenueChart(){
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
+        series.setName("Weekly Revenue");
+        List<Object[]> weeklyData = dashboardService.getWeeklySalesData();
+
+        for (Object[] row : weeklyData) {
+            String date = row[0].toString();
+            Double total = (Double) row[1];
+            series.getData().add(new XYChart.Data<>(date, total));
+        }
+        revenueChart.getData().clear();
+        revenueChart.getData().add(series);
+    }
     private void loadRoles(UserDTO userDTO){
         if (userDTO!=null){
             if (!userDTO.getEmail().endsWith("@clothify.com")){

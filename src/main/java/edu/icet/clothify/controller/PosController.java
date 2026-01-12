@@ -2,14 +2,20 @@ package edu.icet.clothify.controller;
 
 import edu.icet.clothify.service.PosService;
 import edu.icet.clothify.service.impl.PosServiceImpl;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 public class PosController implements Initializable {
@@ -70,6 +76,9 @@ public class PosController implements Initializable {
     @FXML
     public Button btnPlaceOrder;
 
+    @FXML
+    public Label lblDate;
+
 
     @FXML
     void btnPlaceOrderOnAction(ActionEvent event) {
@@ -86,7 +95,13 @@ public class PosController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        posService.loadProductsToGrid(productGrid,cartContainer,lblSubtotal);
+        posService.loadProductsToGrid(productGrid,cartContainer,lblTotal);
+        Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, d MMM yyyy | hh:mm:ss a");
+            lblDate.setText(LocalDateTime.now().format(formatter));
+        }), new KeyFrame(Duration.seconds(1)));
+        clock.setCycleCount(Animation.INDEFINITE);
+        clock.play();
     }
 
     public void btnClearAllOnAction() {

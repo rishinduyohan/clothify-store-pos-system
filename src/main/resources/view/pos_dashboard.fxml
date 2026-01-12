@@ -36,7 +36,7 @@
                                                 <Font name="System Bold" size="24.0" />
                                             </font>
                                         </Label>
-                                        <Label text="Tuesday, 26 Nov 2025" textFill="#888888">
+                                        <Label fx:id="lblDate" text="Tuesday, 26 Nov 2025" textFill="#888888">
                                             <font>
                                                 <Font size="14.0" />
                                             </font>
@@ -143,7 +143,7 @@
                                         <Font name="Monospaced Bold" size="14.0" />
                                     </font>
                                 </Label>
-                                <Label layoutX="256.0" layoutY="15.0" text="John Doe" textFill="#888888">
+                                <Label layoutX="256.0" layoutY="15.0" text="Rishindu" textFill="#888888">
                                     <font>
                                         <Font size="12.0" />
                                     </font>
@@ -166,7 +166,7 @@
                                     <children>
                                         <Label text="Subtotal" textFill="#888888" />
                                         <Region HBox.hgrow="ALWAYS" />
-                                        <Label fx:id="lblSubtotal" text="\$200.50" textFill="#333333">
+                                        <Label fx:id="lblSubtotal" text="LKR 0.0" textFill="#333333">
                                             <font>
                                                 <Font name="System Bold" size="14.0" />
                                             </font>
@@ -177,7 +177,7 @@
                                     <children>
                                         <Label text="Tax (5%)" textFill="#888888" />
                                         <Region HBox.hgrow="ALWAYS" />
-                                        <Label fx:id="lblTax" text="\$10.00" textFill="#333333">
+                                        <Label fx:id="lblTax" text="LKR 0.0" textFill="#333333">
                                             <font>
                                                 <Font name="System Bold" size="14.0" />
                                             </font>
@@ -188,7 +188,7 @@
                                     <children>
                                         <Label text="Discount" textFill="#888888" />
                                         <Region HBox.hgrow="ALWAYS" />
-                                        <Label fx:id="lblDiscount" text="-\$5.00" textFill="#2ed573">
+                                        <Label fx:id="lblDiscount" text="10%" textFill="#2ed573">
                                             <font>
                                                 <Font name="System Bold" size="14.0" />
                                             </font>
@@ -206,9 +206,9 @@
                                             </font>
                                         </Label>
                                         <Region HBox.hgrow="ALWAYS" />
-                                        <Label fx:id="lblTotal" text="\$205.50" textFill="#4b7bec">
+                                        <Label fx:id="lblTotal" text="LKR 0.00" textFill="#4b7bec">
                                             <font>
-                                                <Font name="System Bold" size="26.0" />
+                                                <Font name="System Bold" size="24.0" />
                                             </font>
                                         </Label>
                                     </children>
