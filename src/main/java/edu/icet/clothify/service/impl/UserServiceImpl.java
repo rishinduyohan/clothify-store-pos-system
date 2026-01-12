@@ -25,6 +25,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO getUser(String email) {
         User user = userRepository.getUser(email);
+        if (user == null) {
+            return null;
+        }
         return new UserDTO(user.getUsername(),user.getEmail(),user.getPassword(),user.getImageUrl());
     }
 
