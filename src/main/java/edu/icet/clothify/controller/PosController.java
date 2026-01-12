@@ -95,7 +95,7 @@ public class PosController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        posService.loadProductsToGrid(productGrid,cartContainer,lblSubtotal);
+        posService.loadProductsToGrid(productGrid,cartContainer,lblTotal);
         Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, d MMM yyyy | hh:mm:ss a");
             lblDate.setText(LocalDateTime.now().format(formatter));
