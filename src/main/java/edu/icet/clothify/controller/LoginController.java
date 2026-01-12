@@ -89,6 +89,7 @@ public class LoginController {
                 UserSession.getInstance().setLoggedUser(user);
                 try {
                     stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/dashboard.fxml"))));
+                    stage.getIcons().add(new Image(getClass().getResourceAsStream("/img/dashboard.png")));
                     stage.setTitle("Dashboard Form");
                     stage.show();
                 } catch (Exception e) {
