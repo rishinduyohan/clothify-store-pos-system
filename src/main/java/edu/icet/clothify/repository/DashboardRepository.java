@@ -9,4 +9,5 @@ public interface DashboardRepository {
     Long getTotalProducts();
     Long getSoldItemCount();
     List<Object[]> getWeeklySalesData(LocalDateTime startDate);
+    List<Object[]> getRecentOrders();
 }

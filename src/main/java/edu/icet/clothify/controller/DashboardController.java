@@ -1,6 +1,7 @@
 package edu.icet.clothify.controller;
 
 import edu.icet.clothify.config.UserSession;
+import edu.icet.clothify.model.dto.OrderTM;
 import edu.icet.clothify.model.dto.UserDTO;
 import edu.icet.clothify.service.DashboardService;
 import edu.icet.clothify.service.impl.DashboardServiceImpl;
@@ -8,6 +9,8 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,6 +21,7 @@ import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -73,19 +77,16 @@ public class DashboardController implements Initializable {
     private TableColumn<?, ?> colAmount;
 
     @FXML
-    private TableColumn<?, ?> colCustomer;
+    private TableColumn<?, ?> colProduct;
 
     @FXML
     private TableColumn<?, ?> colDate;
 
     @FXML
-    private TableColumn<?, ?> colItems;
-
-    @FXML
     private TableColumn<?, ?> colOrderId;
 
     @FXML
-    private TableColumn<?, ?> colStatus;
+    private TableColumn<?, ?> colMethod;
 
     @FXML
     private Circle imgUserProfile;
@@ -154,7 +155,7 @@ public class DashboardController implements Initializable {
     private VBox rightSidePane;
 
     @FXML
-    private TableView<?> tblRecentOrders;
+    private TableView<OrderTM> tblRecentOrders;
 
     @FXML
     private VBox vboxCashiers;
@@ -225,8 +226,19 @@ public class DashboardController implements Initializable {
         }), new KeyFrame(Duration.seconds(1)));
         clock.setCycleCount(Animation.INDEFINITE);
         clock.play();
+
+        colOrderId.setCellValueFactory(new PropertyValueFactory<>("orderId"));
+        colProduct.setCellValueFactory(new PropertyValueFactory<>("productName"));
+        colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+        colAmount.setCellValueFactory(new PropertyValueFactory<>("amount"));
+        colMethod.setCellValueFactory(new PropertyValueFactory<>("paymentMethod"));
+
+        ObservableList<OrderTM> orders = FXCollections.observableArrayList(dashboardService.getRecentOrders());
+        tblRecentOrders.setItems(orders);
     }
 
+    private void loadRecentOrders(){
+    }
     private void loadSummary(){
         totalRevenue = dashboardService.getTotalRevenue();
         lblTotalRevenue.setText("LKR "+totalRevenue);
