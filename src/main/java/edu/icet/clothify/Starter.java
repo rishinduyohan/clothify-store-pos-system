@@ -3,6 +3,7 @@ package edu.icet.clothify;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class Starter extends Application {
@@ -14,6 +15,7 @@ public class Starter extends Application {
     public void start(Stage stage) throws Exception {
         stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/login_page.fxml"))));
         stage.setTitle("Login Form");
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/img/login.png")));
         stage.show();
     }
 }
