@@ -163,10 +163,10 @@
                                                 <TableView fx:id="tblRecentOrders" prefHeight="250.0" styleClass="modern-table">
                                                     <columns>
                                                         <TableColumn fx:id="colOrderId" text="ID" />
-                                                        <TableColumn fx:id="colCustomer" text="Customer" />
+                                                        <TableColumn fx:id="colProduct" text="Product" />
                                                         <TableColumn fx:id="colDate" text="Date" />
                                                         <TableColumn fx:id="colAmount" text="Amount" />
-                                                        <TableColumn fx:id="colStatus" text="Status" />
+                                                        <TableColumn fx:id="colMethod" text="Payment method" />
                                                     </columns>
                                                     <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY" /></columnResizePolicy>
                                                 </TableView>
