@@ -1,26 +1,11 @@
 # Clothify Store POS System
 
-> 📌 *A modern Point-of-Sale(POS) system for clothing stores manage inventory, sales, staff, and more with ease.*
-
----
-
-<!-- #### 🏷️ Badges (optional) -->
-<!-- Add CI/Build/License badges here if you have them -->
-<!-- Example: -->
-<!-- ![License](https://img.shields.io/badge/license-MIT-blue.svg) -->
-
----
-
-## 📌 Overview
-
 **Clothify Store POS System** is a Java-based desktop application designed to help clothing retail stores manage daily store operations including sales, inventory, staff, suppliers, reporting, and secure user authentication easily.  
 Built using modern technologies, the system is user-friendly and aimed at improving workflow efficiency and accuracy.
 
 ---
 
 ## 🖼️ Screenshots
-
-> *Add your screenshots here to show UI views, dashboards, and features (replace image paths below).*
 
 | Sign Up Screen | Dashboard |
 |---------------|-----------|
