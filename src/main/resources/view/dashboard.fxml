@@ -44,16 +44,33 @@
                                 <Button fx:id="btnReports" alignment="BASELINE_LEFT" onAction="#btnReportsOnAction" prefHeight="50.0" prefWidth="260.0" styleClass="side-button" text="Reports" />
                             </children>
                         </VBox>
-                        <HBox alignment="CENTER_LEFT" prefHeight="80.0" spacing="15.0" style="-fx-background-color: #1E293B;">
-                            <padding><Insets left="20.0" /></padding>
+                        <HBox alignment="CENTER_LEFT" prefHeight="80.0" spacing="12.0" style="-fx-background-color: #1E293B;">
+                            <padding><Insets left="15.0" right="15.0" /></padding>
                             <children>
-                                <Circle fx:id="imgUserProfile" fill="#64748B" radius="20.0" />
-                                <VBox alignment="CENTER_LEFT">
+                                <Circle fx:id="imgUserProfile" fill="#64748B" radius="18.0" />
+
+                                <VBox alignment="CENTER_LEFT" prefWidth="100.0">
                                     <children>
-                                        <Label fx:id="lblUserName" prefHeight="19.0" prefWidth="122.0" text="Rishindu Peeris" textFill="WHITE"><font><Font name="System Bold" size="13.0" /></font></Label>
-                                        <Label fx:id="lblUserRole" text="Administrator" textFill="#94A3B8"><font><Font size="11.0" /></font></Label>
+                                        <Label fx:id="lblUserName" prefHeight="19.0" prefWidth="113.0" text="Rishindu Peeris" textFill="WHITE">
+                                            <font><Font name="System Bold" size="13.0" /></font>
+                                        </Label>
+                                        <Label fx:id="lblUserRole" text="Administrator" textFill="#94A3B8">
+                                            <font><Font size="11.0" /></font>
+                                        </Label>
                                     </children>
                                 </VBox>
+
+                                <Region HBox.hgrow="ALWAYS" />
+
+                                <HBox alignment="CENTER_RIGHT" spacing="5.0">
+                                    <children>
+                                        <Button fx:id="btnSettings" onAction="#btnSettingsOnAction" prefHeight="38.0" prefWidth="58.0" styleClass="icon-button-small" text="⚙">
+                                 <font>
+                                    <Font size="7.0" />
+                                 </font></Button>
+                                        <Button fx:id="btnLogout" onAction="#btnLogoutOnAction" prefHeight="38.0" prefWidth="51.0" styleClass="icon-button-small-danger" text="⏻" />
+                                    </children>
+                                </HBox>
                             </children>
                         </HBox>
                     </children>

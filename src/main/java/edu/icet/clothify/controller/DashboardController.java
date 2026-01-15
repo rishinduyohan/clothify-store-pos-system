@@ -236,9 +236,6 @@ public class DashboardController implements Initializable {
         ObservableList<OrderTM> orders = FXCollections.observableArrayList(dashboardService.getRecentOrders());
         tblRecentOrders.setItems(orders);
     }
-
-    private void loadRecentOrders(){
-    }
     private void loadSummary(){
         totalRevenue = dashboardService.getTotalRevenue();
         lblTotalRevenue.setText("LKR "+totalRevenue);
@@ -323,5 +320,28 @@ public class DashboardController implements Initializable {
         } catch (IOException e) {
             new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
         }
+    }
+
+    public void btnSettingsOnAction() {
+        try {
+            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/user_profile_card.fxml"))));
+        } catch (IOException e) {
+            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+        }
+        stage.setTitle("Profile Settings");
+        stage.show();
+    }
+
+    public void btnLogoutOnAction(ActionEvent event) {
+        try {
+            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/login_page.fxml"))));
+            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            currentStage.close();
+        } catch (IOException e) {
+            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+        }
+        stage.setTitle("Login Page");
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/img/login.png")));
+        stage.show();
     }
 }

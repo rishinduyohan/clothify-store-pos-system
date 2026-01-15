@@ -1,6 +1,7 @@
 package edu.icet.clothify.controller;
 
 import edu.icet.clothify.config.CloudinaryUtil;
+import edu.icet.clothify.config.PasswordValidateUtil;
 import edu.icet.clothify.config.UserSession;
 import edu.icet.clothify.model.dto.UserDTO;
 import edu.icet.clothify.service.UserService;
@@ -8,6 +9,7 @@ import edu.icet.clothify.service.impl.UserServiceImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -21,15 +23,21 @@ import javafx.stage.Stage;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.File;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class LoginController {
+public class LoginController implements Initializable {
     UserService userService = new UserServiceImpl();
     private boolean isLoginView = true;
     private File selectedImageFile;
     String imageUrl = "";
     String password = "";
     String confirmPassword = "";
+    String email = "";
     Stage stage = new Stage();
+    private String strongStyle = "-fx-border-color: #22c55e; -fx-border-width: 2; -fx-border-radius: 8;";
+    private String weekStyle = "-fx-border-color: #ef4444; -fx-border-width: 2; -fx-border-radius: 8;";
+
     @FXML
     private Button btnLogin;
 
@@ -68,6 +76,9 @@ public class LoginController {
 
     @FXML
     private TextField txtSignupName;
+
+    @FXML
+    private Label lblPasswordStatus;
 
     @FXML
     private PasswordField txtSignupPassword;
@@ -184,5 +195,52 @@ public class LoginController {
 
     public void btnSignUpPasswordOnAction(ActionEvent actionEvent) {
         btnSignupOnAction(actionEvent);
+    }
+
+    private void checkEmailAndPasswordComplexity() {
+        txtSignupEmail.textProperty().addListener((observable ,oldValue,newVale)->{
+            validateEmail();
+        });
+        txtSignupPassword.textProperty().addListener((observable, oldValue, newValue) -> {
+            validateRealTime();
+        });
+        txtSignupConfirmPassword.textProperty().addListener((observable, oldValue, newValue) -> {
+            validateRealTime();
+        });
+    }
+
+    private void validateEmail() {
+        email = txtSignupEmail.getText();
+        if (userService.checkEmail(email)){
+            txtSignupEmail.setStyle(strongStyle);
+        }else{
+            txtSignupEmail.setStyle(weekStyle);
+        }
+    }
+
+    private void validateRealTime() {
+        String passwordOne = txtSignupPassword.getText();
+        String confirmPasswordOne = txtSignupConfirmPassword.getText();
+
+        if (PasswordValidateUtil.isValid(passwordOne)) {
+            txtSignupPassword.setStyle(strongStyle);
+            lblPasswordStatus.setText("Strong Password");
+            lblPasswordStatus.setStyle("-fx-text-fill: #22c55e;");
+        } else {
+            txtSignupPassword.setStyle(weekStyle);
+            lblPasswordStatus.setText("Weak Password");
+            lblPasswordStatus.setStyle("-fx-text-fill: #ef4444;");
+        }
+
+        if (userService.checkPassword(passwordOne, confirmPasswordOne)) {
+            txtSignupConfirmPassword.setStyle(strongStyle);
+        } else {
+            txtSignupConfirmPassword.setStyle(weekStyle);
+        }
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        checkEmailAndPasswordComplexity();
     }
 }

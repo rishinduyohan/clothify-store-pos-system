@@ -1,4 +1,5 @@
 package edu.icet.clothify.service.impl;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import org.mindrot.jbcrypt.BCrypt;
 import edu.icet.clothify.model.dto.UserDTO;
@@ -31,11 +32,33 @@ public class UserServiceImpl implements UserService {
         return new UserDTO(user.getUsername(),user.getEmail(),user.getPassword(),user.getImageUrl());
     }
 
-    private String checkRole(String email) {
+    public String checkRole(String email) {
         return email.endsWith("@clothify.com") ? "ADMIN" : "USER";
     }
     private String getHashedPassword(String password){
         return BCrypt.hashpw(password, BCrypt.gensalt());
+    }
+
+    @Override
+    public boolean checkPassword(String password, String confirmPassword) {
+        try {
+            if (!confirmPassword.isEmpty()) {
+                return password.equals(confirmPassword);
+            }
+        } catch (Exception e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean checkEmail(String email) {
+        try {
+            return email.endsWith("@gmail.com") || email.endsWith("@clothify.com");
+        } catch (Exception e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        }
+        return false;
     }
 
 }

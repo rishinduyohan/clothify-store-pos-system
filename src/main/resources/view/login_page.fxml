@@ -6,12 +6,13 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.GaussianBlur?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
@@ -21,13 +22,13 @@
 
 <AnchorPane fx:id="mainContent" prefHeight="800.0" prefWidth="1520.0" style="-fx-background-color: #F8FAFC;" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.icet.clothify.controller.LoginController">
     <children>
-        <ImageView blendMode="DARKEN" fitHeight="800.0" fitWidth="1520.0" pickOnBounds="true" preserveRatio="false">
+        <ImageView blendMode="DARKEN" fitHeight="800.0" fitWidth="1520.0" pickOnBounds="true">
             <image>
                 <Image url="https://res.cloudinary.com/dbndqriih/image/upload/interior-clothing-store-with-stylish-merchandise-racks-fashionable-brand-design-casual-wear-modern-boutique-empty-fashion-showroom-shopping-centre-with-elegant-merchandise_zntoyl" />
             </image>
-            <effect>
-                <ColorAdjust brightness="-0.11" contrast="0.07" saturation="0.06" />
-            </effect>
+         <effect>
+            <GaussianBlur />
+         </effect>
         </ImageView>
 
         <StackPane opacity="0.92" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -48,7 +49,15 @@
                     <children>
                         <VBox alignment="CENTER" spacing="10.0">
                             <children>
-                                <Circle fill="#3B82F6" radius="10.0" />
+                        <HBox alignment="CENTER" prefHeight="19.0" prefWidth="420.0">
+                           <children>
+                                      <Circle fill="#f70303" radius="10.0" />
+                              <Pane prefHeight="20.0" prefWidth="12.0" />
+                              <Circle fill="#f6fa06" radius="10.0" />
+                              <Pane prefHeight="20.0" prefWidth="12.0" />
+                              <Circle fill="#24bf5d" radius="10.0" />
+                           </children>
+                        </HBox>
                                 <Label fx:id="lblTitle" text="Login to Clothify" textFill="#0F172A">
 
                                     <font>
@@ -83,6 +92,7 @@
                                         </Label>
 
                                         <PasswordField fx:id="txtLoginPassword" onAction="#btnLogInPasswordOnAction" prefHeight="45.0" promptText="••••••••" styleClass="login-input" />
+                              <Label fx:id="lblPasswordStatus" />
 
                                     </children>
                                 </VBox>
@@ -126,6 +136,7 @@
                                 <TextField fx:id="txtSignupEmail" prefHeight="40.0" promptText="Email" styleClass="login-input" />
 
                                 <PasswordField fx:id="txtSignupPassword" prefHeight="40.0" promptText="Password" styleClass="login-input" />
+                        <Label fx:id="lblPasswordStatus" />
 
                                 <PasswordField fx:id="txtSignupConfirmPassword" onAction="#btnSignUpPasswordOnAction" prefHeight="40.0" promptText="Confirm Password" styleClass="login-input" />
 
