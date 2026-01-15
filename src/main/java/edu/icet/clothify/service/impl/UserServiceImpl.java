@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
         return new UserDTO(user.getUsername(),user.getEmail(),user.getPassword(),user.getImageUrl());
     }
 
-    private String checkRole(String email) {
+    public String checkRole(String email) {
         return email.endsWith("@clothify.com") ? "ADMIN" : "USER";
     }
     private String getHashedPassword(String password){

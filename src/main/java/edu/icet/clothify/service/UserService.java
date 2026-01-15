@@ -7,4 +7,5 @@ public interface UserService {
     UserDTO getUser(String email);
     boolean checkPassword(String password, String confirmPassword);
     boolean checkEmail(String email);
+    String checkRole(String email);
 }
