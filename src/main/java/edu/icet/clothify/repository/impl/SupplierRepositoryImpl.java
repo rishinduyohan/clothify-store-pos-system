@@ -13,6 +13,7 @@ public class SupplierRepositoryImpl implements SupplierRepository {
 
     @Override
     public List<Supplier> getSuppliers() {
+        session.clear();
         return session.createQuery("From Supplier", Supplier.class).list();
     }
 

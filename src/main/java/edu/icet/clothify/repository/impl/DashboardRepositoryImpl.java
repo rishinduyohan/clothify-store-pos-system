@@ -5,7 +5,7 @@ import edu.icet.clothify.repository.DashboardRepository;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-
+import edu.icet.clothify.model.entity.AppSetting;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -27,32 +27,76 @@ public class DashboardRepositoryImpl implements DashboardRepository {
 
     @Override
     public double getTotalRevenue() {
-        return session.createQuery("SELECT SUM(totalAmount) FROM Order", Double.class).uniqueResult();
+        session.clear();
+        Double result = session.createQuery("SELECT SUM(totalAmount) FROM Order", Double.class).uniqueResult();
+        return result != null ? result : 0.0;
     }
 
     @Override
     public Long getActiveOrders() {
-        return session.createQuery("SELECT COUNT(orderId) FROM Order", Long.class).uniqueResult();
+        session.clear();
+        Long result = session.createQuery("SELECT COUNT(orderId) FROM Order", Long.class).uniqueResult();
+        return result != null ? result : 0L;
     }
 
     @Override
     public Long getTotalProducts() {
-        return session.createQuery("SELECT COUNT(productId) FROM Product", Long.class).uniqueResult();
+        session.clear();
+        Long result = session.createQuery("SELECT COUNT(productId) FROM Product", Long.class).uniqueResult();
+        return result != null ? result : 0L;
     }
 
     @Override
     public Long getSoldItemCount() {
-        return session.createQuery("SELECT SUM(qty) FROM OrderDetail", Long.class).uniqueResult();
+        session.clear();
+        Long result = session.createQuery("SELECT SUM(qty) FROM OrderDetail", Long.class).uniqueResult();
+        return result != null ? result : 0L;
     }
 
     @Override
     public List<Object[]> getWeeklySalesData(LocalDateTime startDate) {
-        return session.createQuery(weeklyResultQuery,Object[].class).setParameter("startDate",startDate).getResultList();
+        session.clear();
+        return session.createQuery(weeklyResultQuery, Object[].class).setParameter("startDate", startDate)
+                .getResultList();
     }
 
     @Override
     public List<Object[]> getRecentOrders() {
-        return session.createQuery(recentOrders,Object[].class).setMaxResults(5).getResultList();
+        session.clear();
+        return session.createQuery(recentOrders, Object[].class).setMaxResults(5).getResultList();
     }
 
+    @Override
+    public double getMonthlyTarget() {
+        session.clear();
+        AppSetting setting = session.find(AppSetting.class, "MONTHLY_TARGET");
+        if (setting != null) {
+            try {
+                return Double.parseDouble(setting.getSettingValue());
+            } catch (NumberFormatException e) {
+                return 1200000.0;
+            }
+        }
+        return 1200000.0; // default
+    }
+
+    @Override
+    public void updateMonthlyTarget(double target) {
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            AppSetting setting = session.find(AppSetting.class, "MONTHLY_TARGET");
+            if (setting == null) {
+                setting = new AppSetting("MONTHLY_TARGET", String.valueOf(target));
+            } else {
+                setting.setSettingValue(String.valueOf(target));
+            }
+            session.merge(setting);
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null)
+                tx.rollback();
+            e.printStackTrace();
+        }
+    }
 }

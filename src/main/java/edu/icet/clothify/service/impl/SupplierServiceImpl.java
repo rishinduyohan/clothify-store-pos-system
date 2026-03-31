@@ -15,6 +15,7 @@ public class SupplierServiceImpl implements SupplierService {
 
     @Override
     public ObservableList<SupplierDTO> getAllSuppliers() {
+        supplierDTOS.clear();
         List<Supplier> suppliers = supplierRepository.getSuppliers();
         for (Supplier supplier : suppliers) {
             supplierDTOS.add(
@@ -24,9 +25,7 @@ public class SupplierServiceImpl implements SupplierService {
                             supplier.getContactPerson(),
                             supplier.getContactNumber(),
                             supplier.getItemCategory(),
-                            supplier.getEmail()
-                    )
-            );
+                            supplier.getEmail()));
         }
         return supplierDTOS;
     }
@@ -43,7 +42,7 @@ public class SupplierServiceImpl implements SupplierService {
     }
 
     @Override
-    public boolean updateSupplier(Long id,SupplierDTO supplier) {
+    public boolean updateSupplier(Long id, SupplierDTO supplier) {
         Supplier newSupplier = new Supplier();
         newSupplier.setSupplierId(id);
         newSupplier.setCompanyName(supplier.getCompanyName());
@@ -55,7 +54,7 @@ public class SupplierServiceImpl implements SupplierService {
     }
 
     @Override
-    public boolean removeSupplier(Long id,SupplierDTO supplier) {
+    public boolean removeSupplier(Long id, SupplierDTO supplier) {
         Supplier newSupplier = new Supplier();
         newSupplier.setSupplierId(id);
         newSupplier.setCompanyName(supplier.getCompanyName());

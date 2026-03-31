@@ -79,10 +79,9 @@ public class PosController implements Initializable {
     @FXML
     public Label lblDate;
 
-
     @FXML
     void btnPlaceOrderOnAction(ActionEvent event) {
-        if (posService.SaveOrder()){
+        if (posService.SaveOrder()) {
             new Alert(Alert.AlertType.CONFIRMATION, "Order placed!").show();
         }
         posService.clearCart();
@@ -90,12 +89,54 @@ public class PosController implements Initializable {
 
     @FXML
     void txtSearchOnAction(ActionEvent event) {
-        //text search
+        applyFilters();
+    }
+
+    private String currentCategory = "All Items";
+
+    private void applyFilters() {
+        String searchText = searchField.getText();
+        posService.filterProducts(searchText, currentCategory, productGrid, cartContainer, lblTotal);
+    }
+
+    private void setCategoryFilter(String category, Button activeBtn) {
+        currentCategory = category;
+
+        Button[] btns = { btnCatAll, btnCatMen, btnCatWomen, btnCatShoes, btnCatAcc };
+        for (Button btn : btns) {
+            if (btn != null) {
+                if (btn == activeBtn) {
+                    btn.setStyle("-fx-background-color: #4B7BEC; -fx-text-fill: white; -fx-background-radius: 20;");
+                } else {
+                    btn.setStyle(
+                            "-fx-background-color: transparent; -fx-text-fill: black; -fx-background-radius: 20; -fx-border-color: #d1d8e0; -fx-border-radius: 20;");
+                }
+            }
+        }
+        applyFilters();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        posService.loadProductsToGrid(productGrid,cartContainer,lblTotal);
+        posService.loadProductsToGrid(productGrid, cartContainer, lblTotal);
+
+        if (searchField != null) {
+            searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+                applyFilters();
+            });
+        }
+
+        if (btnCatAll != null)
+            btnCatAll.setOnAction(e -> setCategoryFilter("All Items", btnCatAll));
+        if (btnCatMen != null)
+            btnCatMen.setOnAction(e -> setCategoryFilter("Gents Wear", btnCatMen));
+        if (btnCatWomen != null)
+            btnCatWomen.setOnAction(e -> setCategoryFilter("Ladies Wear", btnCatWomen));
+        if (btnCatShoes != null)
+            btnCatShoes.setOnAction(e -> setCategoryFilter("Footwear", btnCatShoes));
+        if (btnCatAcc != null)
+            btnCatAcc.setOnAction(e -> setCategoryFilter("Accessories", btnCatAcc));
+
         Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, d MMM yyyy | hh:mm:ss a");
             lblDate.setText(LocalDateTime.now().format(formatter));
@@ -105,7 +146,7 @@ public class PosController implements Initializable {
     }
 
     public void btnClearAllOnAction() {
-        if (posService.clearCart()){
+        if (posService.clearCart()) {
             new Alert(Alert.AlertType.CONFIRMATION, "Item removed!").show();
         }
     }
