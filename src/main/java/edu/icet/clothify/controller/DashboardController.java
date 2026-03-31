@@ -2,9 +2,12 @@ package edu.icet.clothify.controller;
 
 import edu.icet.clothify.config.UserSession;
 import edu.icet.clothify.model.dto.OrderTM;
+import edu.icet.clothify.model.dto.SupplierDTO;
 import edu.icet.clothify.model.dto.UserDTO;
 import edu.icet.clothify.service.DashboardService;
+import edu.icet.clothify.service.SupplierService;
 import edu.icet.clothify.service.impl.DashboardServiceImpl;
+import edu.icet.clothify.service.impl.SupplierServiceImpl;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -24,6 +27,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
@@ -46,6 +50,7 @@ public class DashboardController implements Initializable {
     private static final String ACTIVE_STYLE = "-fx-background-color: #4B7BEC; -fx-background-radius: 0 30 30 0; -fx-cursor: hand;-fx-text-fill:white;";
     private static final String INACTIVE_STYLE = "-fx-background-color: transparent; -fx-cursor: hand;";
     DashboardService dashboardService = new DashboardServiceImpl();
+    SupplierService supplierService = new SupplierServiceImpl();
 
     @FXML
     private AnchorPane mainContent;
@@ -221,6 +226,7 @@ public class DashboardController implements Initializable {
         loadRoles(loggedUser);
         loadSummary();
         loadWeeklyRevenueChart();
+        loadActiveSuppliers();
         Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, d MMM yyyy | hh:mm:ss a");
             lblDate.setText(LocalDateTime.now().format(formatter));
@@ -258,7 +264,7 @@ public class DashboardController implements Initializable {
                         double newGoal = Double.parseDouble(newTarget);
                         dashboardService.updateMonthlyTarget(newGoal);
                         loadSummary();
-                    } catch (NumberFormatException ex) {
+                    } catch (NumberFormatException _) {
                         new Alert(Alert.AlertType.ERROR, "Invalid amount").show();
                     }
                 });
@@ -298,6 +304,42 @@ public class DashboardController implements Initializable {
         revenueChart.getData().add(series);
         revenueChart.setBarGap(10);
         revenueChart.setCategoryGap(20);
+    }
+
+    private void loadActiveSuppliers() {
+        try {
+            ObservableList<SupplierDTO> suppliers = supplierService.getAllSuppliers();
+            vboxCashiers.getChildren().clear();
+            if (suppliers != null && !suppliers.isEmpty()) {
+                lblUserRole.getScene();
+                int maxShow = Math.min(5, suppliers.size());
+                for (int i = 0; i < maxShow; i++) {
+                    SupplierDTO s = suppliers.get(i);
+                    HBox row = new HBox();
+                    row.setSpacing(10);
+
+                    Circle avatar = new Circle(18);
+                    avatar.setFill(javafx.scene.paint.Color.web("#64748B"));
+
+                    VBox texts = new VBox();
+                    Label name = new Label(s.getCompanyName());
+                    name.setStyle("-fx-font-weight: bold;");
+                    Label contact = new Label(s.getContactPerson() + " • " + s.getContactNumber());
+                    contact.setStyle("-fx-text-fill: #64748B;");
+
+                    texts.getChildren().addAll(name, contact);
+                    row.getChildren().addAll(avatar, texts);
+
+                    vboxCashiers.getChildren().add(row);
+                }
+            } else {
+                Label empty = new Label("No active suppliers");
+                empty.setStyle("-fx-text-fill: #94A3B8;");
+                vboxCashiers.getChildren().add(empty);
+            }
+        } catch (Exception e) {
+            new Alert(Alert.AlertType.ERROR, "Failed to load suppliers: " + e.getMessage()).show();
+        }
     }
 
     private void loadRoles(UserDTO userDTO) {

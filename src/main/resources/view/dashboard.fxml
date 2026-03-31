@@ -155,7 +155,7 @@
                                                             <children>
                                                                 <HBox alignment="CENTER_LEFT">
                                                                     <children>
-                                                                        <Label text="Active Cashiers" textFill="#1E293B"><font><Font name="System Bold" size="16.0" /></font></Label>
+                                                                        <Label text="Active Suppliers" textFill="#1E293B"><font><Font name="System Bold" size="16.0" /></font></Label>
                                                                         <Region HBox.hgrow="ALWAYS" />
                                                                         <Circle fx:id="notifIndicator" fill="#10B981" radius="5.0" />
                                                                     </children>
