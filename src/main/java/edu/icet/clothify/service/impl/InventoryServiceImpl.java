@@ -16,18 +16,19 @@ public class InventoryServiceImpl implements InventoryService {
     ObservableList<String> suppliers = FXCollections.observableArrayList();
     ObservableList<ProductDTO> list = FXCollections.observableArrayList();
 
-
     @Override
     public ObservableList<String> getCategoryNames() {
-       for (Category category: inventoryRepository.getCategories()){
-           categories.add(category.getName());
-       }
-       return categories;
+        categories.clear();
+        for (Category category : inventoryRepository.getCategories()) {
+            categories.add(category.getName());
+        }
+        return categories;
     }
 
     @Override
     public ObservableList<String> getSupplierNames() {
-        for (Supplier supplier: inventoryRepository.getSuppliers()){
+        suppliers.clear();
+        for (Supplier supplier : inventoryRepository.getSuppliers()) {
             suppliers.add(supplier.getCompanyName());
         }
         return suppliers;
@@ -42,14 +43,13 @@ public class InventoryServiceImpl implements InventoryService {
                 "Large",
                 "Medium",
                 "Small",
-                "Kids"
-        );
+                "Kids");
     }
 
     @Override
     public ObservableList<ProductDTO> getAllProducts() {
         list.clear();
-        if (inventoryRepository.getAllProducts()!=null) {
+        if (inventoryRepository.getAllProducts() != null) {
             for (Product product : inventoryRepository.getAllProducts()) {
                 list.add(new ProductDTO(
                         product.getProductId(),
@@ -59,17 +59,17 @@ public class InventoryServiceImpl implements InventoryService {
                         product.getPrice(),
                         product.getStockQuantity(),
                         product.getCategory().getName(),
-                        product.getSupplier().getCompanyName()
-                ));
+                        product.getSupplier().getCompanyName()));
             }
         }
         return list;
     }
 
-    public Category getCategoryFromName(String name){
+    public Category getCategoryFromName(String name) {
         return inventoryRepository.getCategory(name);
     }
-    public Supplier getSupplierFromName(String company){
+
+    public Supplier getSupplierFromName(String company) {
         return inventoryRepository.getSupplier(company);
     }
 
@@ -87,7 +87,7 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
-    public boolean updateProduct(Long id,ProductDTO productDTO) {
+    public boolean updateProduct(Long id, ProductDTO productDTO) {
         Product product = new Product();
         product.setProductId(id);
         product.setName(productDTO.getName());

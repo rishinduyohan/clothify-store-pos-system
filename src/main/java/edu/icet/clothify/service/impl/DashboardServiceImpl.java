@@ -21,53 +21,54 @@ public class DashboardServiceImpl implements DashboardService {
 
     @Override
     public double getTotalRevenue() {
-       try{
-           return dashboardRepository.getTotalRevenue();
-       } catch (Exception e) {
-           new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
-       }
-       return 0.0;
+        try {
+            return dashboardRepository.getTotalRevenue();
+        } catch (Exception e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        }
+        return 0.0;
     }
 
     @Override
     public int getActiveOrders() {
-        try{
+        try {
             return dashboardRepository.getActiveOrders().intValue();
         } catch (Exception e) {
-            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
         return 0;
     }
 
     @Override
     public int getTotalProducts() {
-        try{
+        try {
             return dashboardRepository.getTotalProducts().intValue();
         } catch (Exception e) {
-            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
         return 0;
     }
 
     @Override
     public int getSoldItemCount() {
-        try{
-           return dashboardRepository.getSoldItemCount().intValue();
+        try {
+            return dashboardRepository.getSoldItemCount().intValue();
         } catch (Exception e) {
-            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
         return 0;
     }
 
     @Override
     public List<Object[]> getWeeklySalesData() {
-        try{
+        try {
             return dashboardRepository.getWeeklySalesData(startDate);
         } catch (Exception e) {
-            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
         return new ArrayList<>();
     }
+
     @Override
     public List<OrderTM> getRecentOrders() {
         try {
@@ -83,7 +84,7 @@ public class DashboardServiceImpl implements DashboardService {
         }
     }
 
-    private void addRecentData(List<Object[]> list){
+    private void addRecentData(List<Object[]> list) {
         for (Object[] row : list) {
             String id = (row.length > 0 && row[0] != null) ? row[0].toString() : "";
             String customer = (row.length > 1 && row[1] != null) ? row[1].toString() : "";
@@ -92,10 +93,21 @@ public class DashboardServiceImpl implements DashboardService {
             if (row.length > 3 && row[3] != null) {
                 try {
                     total = Double.parseDouble(row[3].toString());
-                } catch (NumberFormatException _){}
+                } catch (NumberFormatException _) {
+                }
             }
             String date = (row.length > 4 && row[4] != null) ? row[4].toString() : "";
             tmList.add(new OrderTM(id, customer, status, total, date));
         }
+    }
+
+    @Override
+    public double getMonthlyTarget() {
+        return dashboardRepository.getMonthlyTarget();
+    }
+
+    @Override
+    public void updateMonthlyTarget(double target) {
+        dashboardRepository.updateMonthlyTarget(target);
     }
 }

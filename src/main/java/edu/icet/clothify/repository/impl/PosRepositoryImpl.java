@@ -17,6 +17,7 @@ public class PosRepositoryImpl implements PosRepository {
 
     @Override
     public List<Product> getAllItems() {
+        session.clear();
         return session.createQuery("FROM Product", Product.class).list();
     }
 
@@ -32,6 +33,7 @@ public class PosRepositoryImpl implements PosRepository {
         session.persist(orderDetail);
         return true;
     }
+
     @Override
     public void saveTransaction() {
         transaction.commit();

@@ -35,7 +35,7 @@ public class PosServiceImpl implements PosService {
     @Override
     public List<ProductDTO> getALlItems() {
         list.clear();
-        if (posRepository.getAllItems()!=null) {
+        if (posRepository.getAllItems() != null) {
             for (Product product : posRepository.getAllItems()) {
                 list.add(new ProductDTO(
                         product.getProductId(),
@@ -45,8 +45,7 @@ public class PosServiceImpl implements PosService {
                         product.getPrice(),
                         product.getStockQuantity(),
                         product.getCategory().getName(),
-                        product.getSupplier().getCompanyName()
-                ));
+                        product.getSupplier().getCompanyName()));
             }
         }
         return list;
@@ -54,15 +53,51 @@ public class PosServiceImpl implements PosService {
 
     @Override
     public void loadProductsToGrid(GridPane productGrid, VBox cartContainer, Label lblTotal) {
-        productGrid.getChildren().clear();
         List<ProductDTO> products = getALlItems();
+        renderProducts(products, productGrid, cartContainer, lblTotal);
+    }
+
+    @Override
+    public void filterProducts(String searchText, String category, GridPane productGrid, VBox cartContainer,
+            Label lblTotal) {
+        List<ProductDTO> allProducts = getALlItems();
+        List<ProductDTO> filtered = new ArrayList<>();
+
+        for (ProductDTO p : allProducts) {
+            boolean matchesSearch = true;
+            boolean matchesCategory = true;
+
+            if (searchText != null && !searchText.trim().isEmpty()) {
+                String searchLC = searchText.toLowerCase();
+                if (!p.getName().toLowerCase().contains(searchLC) &&
+                        !String.valueOf(p.getProductId()).toLowerCase().contains(searchLC)) {
+                    matchesSearch = false;
+                }
+            }
+
+            if (category != null && !category.equalsIgnoreCase("All Items")) {
+                if (p.getCategory() == null || !p.getCategory().equalsIgnoreCase(category)) {
+                    matchesCategory = false;
+                }
+            }
+
+            if (matchesSearch && matchesCategory) {
+                filtered.add(p);
+            }
+        }
+
+        renderProducts(filtered, productGrid, cartContainer, lblTotal);
+    }
+
+    private void renderProducts(List<ProductDTO> products, GridPane productGrid, VBox cartContainer, Label lblTotal) {
+        productGrid.getChildren().clear();
         int column = 0;
         int row = 0;
         this.totalValue = lblTotal;
         this.cartContainer = cartContainer;
 
         try {
-            if(products!=null) {
+            if (products != null) {
                 for (ProductDTO product : products) {
                     URL fxmlUrl = getClass().getResource("/view/product_cart.fxml");
                     FXMLLoader fxmlLoader = new FXMLLoader(fxmlUrl);
@@ -83,7 +118,7 @@ public class PosServiceImpl implements PosService {
                                 Image image = new Image(imagePath);
                                 imageView.setImage(image);
                             } catch (Exception e) {
-                                new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+                                new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
                             }
                         }
                         nameLabel.setText(product.getName());
@@ -101,33 +136,33 @@ public class PosServiceImpl implements PosService {
                         column = 0;
                         row++;
                     }
-                addToCartBtn.setOnAction(event -> addToCart(product,cartContainer));
+                    addToCartBtn.setOnAction(event -> addToCart(product, cartContainer));
                 }
             }
         } catch (IOException e) {
-            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
     }
 
     @Override
     public boolean clearCart() {
-       cartItems.clear();
-       cartContainer.getChildren().clear();
-       totalValue.setText("LKR 0.00");
-       return true;
+        cartItems.clear();
+        cartContainer.getChildren().clear();
+        totalValue.setText("LKR 0.00");
+        return true;
     }
 
-    public void addToCart(ProductDTO product,VBox cartContainer) {
+    public void addToCart(ProductDTO product, VBox cartContainer) {
         Optional<CartItem> existingItem = cartItems.stream()
                 .filter(item -> item.getProduct().getProductId().equals(product.getProductId()))
                 .findFirst();
 
-        if (existingItem.isPresent()){
+        if (existingItem.isPresent()) {
             CartItem item = existingItem.get();
-            item.setQuantity(item.getQuantity()+1);
+            item.setQuantity(item.getQuantity() + 1);
             item.calculateTotal();
-        }else{
-            cartItems.add(new CartItem(product,1));
+        } else {
+            cartItems.add(new CartItem(product, 1));
         }
         updateCartUi(cartContainer);
     }
@@ -148,7 +183,7 @@ public class PosServiceImpl implements PosService {
 
                 lblName.setText(item.getProduct().getName());
                 lblQty.setText(item.getQuantity() + " x " + item.getProduct().getPrice());
-                lblTotal.setText(item.getTotal()+"");
+                lblTotal.setText(item.getTotal() + "");
 
                 btnRemove.setOnAction(e -> {
                     cartItems.remove(item);
@@ -159,14 +194,15 @@ public class PosServiceImpl implements PosService {
                 netTotal = netTotal.add(item.getTotal());
 
             } catch (IOException e) {
-                new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+                new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
             }
         }
         totalValue.setText(netTotal.toPlainString());
     }
-    private Product getProduct(ProductDTO productDTO){
+
+    private Product getProduct(ProductDTO productDTO) {
         for (Product product : posRepository.getAllItems()) {
-            if (productDTO.getProductId().equals(product.getProductId())){
+            if (productDTO.getProductId().equals(product.getProductId())) {
                 return product;
             }
         }
@@ -179,17 +215,17 @@ public class PosServiceImpl implements PosService {
         newOrder.setDate(LocalDateTime.now());
         newOrder.setTotalAmount(Double.parseDouble(totalValue.getText()));
         newOrder.setPaymentMethod("Cash");
-        if (posRepository.saveOrder(newOrder)){
-            for (CartItem item : cartItems){
+        if (posRepository.saveOrder(newOrder)) {
+            for (CartItem item : cartItems) {
                 OrderDetail orderDetail = new OrderDetail();
                 orderDetail.setOrder(newOrder);
                 orderDetail.setProduct(getProduct(item.getProduct()));
                 orderDetail.setQty(item.getQuantity());
                 orderDetail.setUnitPrice(item.getProduct().getPrice());
                 orderDetail.setSubTotal(item.getTotal());
-                if (posRepository.saveDetails(orderDetail)){
+                if (posRepository.saveDetails(orderDetail)) {
                     Product product = getProduct(item.getProduct());
-                    if (product!=null) {
+                    if (product != null) {
                         product.setStockQuantity(product.getStockQuantity() - item.getQuantity());
                         posRepository.updateSession(product);
                     }

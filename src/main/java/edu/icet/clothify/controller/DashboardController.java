@@ -32,6 +32,7 @@ import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -174,7 +175,7 @@ public class DashboardController implements Initializable {
 
     @FXML
     void btnViewAllOrdersOnAction(ActionEvent event) {
-        //view orders
+        // view orders
     }
 
     @FXML
@@ -184,7 +185,7 @@ public class DashboardController implements Initializable {
             Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             currentStage.close();
         } catch (IOException e) {
-            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
         stage.setTitle("Dashboard");
         stage.show();
@@ -236,33 +237,72 @@ public class DashboardController implements Initializable {
         ObservableList<OrderTM> orders = FXCollections.observableArrayList(dashboardService.getRecentOrders());
         tblRecentOrders.setItems(orders);
     }
-    private void loadSummary(){
-        totalRevenue = dashboardService.getTotalRevenue();
-        lblTotalRevenue.setText("LKR "+totalRevenue);
-        lblActiveOrders.setText(""+dashboardService.getActiveOrders());
-        lblTotalProducts.setText(""+dashboardService.getTotalProducts());
-        lblItemsSold.setText(""+dashboardService.getSoldItemCount());
 
-        double goal = 1200000.0;
+    private void loadSummary() {
+        totalRevenue = dashboardService.getTotalRevenue();
+        lblTotalRevenue.setText("LKR " + totalRevenue);
+        lblActiveOrders.setText("" + dashboardService.getActiveOrders());
+        lblTotalProducts.setText("" + dashboardService.getTotalProducts());
+        lblItemsSold.setText("" + dashboardService.getSoldItemCount());
+
+        double goal = dashboardService.getMonthlyTarget();
+        if (lblMonthlyGoalValue != null) {
+            lblMonthlyGoalValue.setText(String.format("LKR %.1fM", goal / 1000000.0));
+            lblMonthlyGoalValue.setOnMouseClicked(e -> {
+                TextInputDialog dialog = new TextInputDialog(String.valueOf(goal));
+                dialog.setTitle("Monthly Target");
+                dialog.setHeaderText("Update Monthly Target");
+                dialog.setContentText("Enter new target amount (LKR):");
+                dialog.showAndWait().ifPresent(newTarget -> {
+                    try {
+                        double newGoal = Double.parseDouble(newTarget);
+                        dashboardService.updateMonthlyTarget(newGoal);
+                        loadSummary();
+                    } catch (NumberFormatException ex) {
+                        new Alert(Alert.AlertType.ERROR, "Invalid amount").show();
+                    }
+                });
+            });
+            lblMonthlyGoalValue.setTooltip(new Tooltip("Click to edit Monthly Target"));
+            lblMonthlyGoalValue.setCursor(javafx.scene.Cursor.HAND);
+        }
         progressMonthlyGoal.setProgress(totalRevenue / goal);
-        lblMonthlyGoalPercent.setText((int)((totalRevenue / goal) * 100) + "%");
+        lblMonthlyGoalPercent.setText((int) ((totalRevenue / goal) * 100) + "%");
     }
-    private void loadWeeklyRevenueChart(){
+
+    private void loadWeeklyRevenueChart() {
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         series.setName("Weekly Revenue");
         List<Object[]> weeklyData = dashboardService.getWeeklySalesData();
 
+        // Pre-fill last 7 days with 0.0 to fix visual layout empty spaces and wide bars
+        // issue
+        java.util.Map<String, Double> dataMap = new java.util.HashMap<>();
+        for (int i = 6; i >= 0; i--) {
+            dataMap.put(LocalDate.now().minusDays(i).toString(), 0.0);
+        }
+
         for (Object[] row : weeklyData) {
             String date = row[0].toString();
             Double total = (Double) row[1];
-            series.getData().add(new XYChart.Data<>(date, total));
+            dataMap.put(date, total);
         }
+
+        // Add to series in order
+        for (int i = 6; i >= 0; i--) {
+            String d = LocalDate.now().minusDays(i).toString();
+            series.getData().add(new XYChart.Data<>(d, dataMap.get(d)));
+        }
+
         revenueChart.getData().clear();
         revenueChart.getData().add(series);
+        revenueChart.setBarGap(10);
+        revenueChart.setCategoryGap(20);
     }
-    private void loadRoles(UserDTO userDTO){
-        if (userDTO!=null){
-            if (!userDTO.getEmail().endsWith("@clothify.com")){
+
+    private void loadRoles(UserDTO userDTO) {
+        if (userDTO != null) {
+            if (!userDTO.getEmail().endsWith("@clothify.com")) {
                 btnEmployee.setDisable(true);
                 btnInventory.setDisable(true);
                 btnReports.setDisable(true);
@@ -278,7 +318,7 @@ public class DashboardController implements Initializable {
                 String imagePath = userDTO.getImage();
                 if (imagePath != null && !imagePath.isEmpty()) {
                     Image profileImg = new Image(imagePath, true);
-                    //for load image to circle
+                    // for load image to circle
                     profileImg.progressProperty().addListener((observable, oldValue, newValue) -> {
                         if (newValue.doubleValue() == 1.0) { // when 100% complete
                             Platform.runLater(() -> {
@@ -288,13 +328,15 @@ public class DashboardController implements Initializable {
                         }
                     });
                 }
-            } catch (Exception e){
-                new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+            } catch (Exception e) {
+                new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
             }
         }
     }
+
     private void updateActiveButton(Button clickedButton) {
-        List<Button> allButtons = Arrays.asList(btnDashboard, btnPos, btnEmployee, btnInventory, btnSupplier,btnReports);
+        List<Button> allButtons = Arrays.asList(btnDashboard, btnPos, btnEmployee, btnInventory, btnSupplier,
+                btnReports);
 
         for (Button btn : allButtons) {
             if (btn == clickedButton) {
@@ -304,6 +346,7 @@ public class DashboardController implements Initializable {
             }
         }
     }
+
     private void setUi(String name) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(name));
@@ -318,7 +361,7 @@ public class DashboardController implements Initializable {
             AnchorPane.setBottomAnchor(loadedUi, 0.0);
 
         } catch (IOException e) {
-            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
     }
 
@@ -326,7 +369,7 @@ public class DashboardController implements Initializable {
         try {
             stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/user_profile_card.fxml"))));
         } catch (IOException e) {
-            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
         stage.setTitle("Profile Settings");
         stage.show();
@@ -338,7 +381,7 @@ public class DashboardController implements Initializable {
             Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             currentStage.close();
         } catch (IOException e) {
-            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
         stage.setTitle("Login Page");
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/img/login.png")));

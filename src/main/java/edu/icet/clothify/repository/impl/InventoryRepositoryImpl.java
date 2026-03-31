@@ -14,17 +14,20 @@ public class InventoryRepositoryImpl implements InventoryRepository {
 
     @Override
     public List<Category> getCategories() {
-        return session.createQuery("From Category",Category.class).list();
+        session.clear();
+        return session.createQuery("From Category", Category.class).list();
     }
 
     @Override
     public List<Supplier> getSuppliers() {
-        return session.createQuery("From Supplier",Supplier.class).list();
+        session.clear();
+        return session.createQuery("From Supplier", Supplier.class).list();
     }
 
     @Override
     public List<Product> getAllProducts() {
-        return session.createQuery("From Product",Product.class).list();
+        session.clear();
+        return session.createQuery("From Product", Product.class).list();
     }
 
     @Override
@@ -53,12 +56,13 @@ public class InventoryRepositoryImpl implements InventoryRepository {
 
     @Override
     public Category getCategory(String name) {
-        return session.createQuery("From Category where name = '"+name+"'",Category.class).uniqueResult();
+        return session.createQuery("From Category where name = '" + name + "'", Category.class).uniqueResult();
     }
 
     @Override
     public Supplier getSupplier(String company) {
-        return session.createQuery("From Supplier where companyName = '"+company+"'",Supplier.class).uniqueResult();
+        return session.createQuery("From Supplier where companyName = '" + company + "'", Supplier.class)
+                .uniqueResult();
     }
 
 }
